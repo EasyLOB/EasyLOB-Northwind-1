@@ -1,0 +1,299 @@
+@model OrderDetailCollectionModel
+
+@{
+    ViewBag.Title = OrderDetailResources.EntityPlural;
+}
+
+<div id="OrderDetail_Title">
+    <h3>@ViewBag.Title</h3>
+</div>
+
+@(Html.EJ().Grid<OrderDetail>("Grid_OrderDetail")
+    .Datasource(datasource => datasource
+        .Adaptor(AdaptorType.UrlAdaptor)
+        .URL(Url.Content("~/OrderDetail/DataSource"))
+    )
+    .AllowFiltering()
+    .AllowGrouping()
+    .AllowPaging()
+    .AllowResizing()
+    .AllowScrolling()
+    .AllowSearching()
+    .AllowSorting()
+    .ClientSideEvents(clientEvent => clientEvent
+        .ActionBegin("actionBegin_Grid_OrderDetail")
+        .ActionFailure("actionFailure_Grid_OrderDetail")
+        .Load("load_Grid_OrderDetail")
+        .ToolbarClick("toolbarClick_Grid_OrderDetail")
+    )
+    .Columns(column =>
+    {
+        column.Field("OrderId")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(OrderDetailResources.PropertyOrderId)
+            .IsPrimaryKey(true)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("OrderLookupText")
+            .AllowEditing(false)
+            .HeaderText(OrderResources.EntitySingular)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("ProductId")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(OrderDetailResources.PropertyProductId)
+            .IsPrimaryKey(true)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("ProductLookupText")
+            .AllowEditing(false)
+            .HeaderText(ProductResources.EntitySingular)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("UnitPrice")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Float)
+            .HeaderText(OrderDetailResources.PropertyUnitPrice)
+            .TextAlign(TextAlign.Right)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("Quantity")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(OrderDetailResources.PropertyQuantity)
+            .TextAlign(TextAlign.Right)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("Discount")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Float)
+            .HeaderText(OrderDetailResources.PropertyDiscount)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+    })
+    .EditSettings(edit => edit
+        .AllowAdding()
+        .AllowDeleting()
+        .AllowEditing()
+    )
+    .EnablePersistence()
+    .FilterSettings(filter => filter
+        .EnableCaseSensitivity(false)
+        .FilterType(FilterType.Excel)
+        .MaxFilterChoices(System.Int32.MaxValue)
+    )
+    .Mappers(map => map
+        .ExportToExcelAction(Url.Content("~/OrderDetail/ExportToExcel"))
+        .ExportToPdfAction(Url.Content("~/OrderDetail/ExportToPdf"))
+        .ExportToWordAction(Url.Content("~/OrderDetail/ExportToWord"))
+    )
+    .PageSettings(page => page
+        .PageSize(AppDefaults.SyncfusionRecordsByPage)
+    )
+    .SearchSettings(search =>
+    {
+        search.Fields(field =>
+        {
+            //field.Add("OrderId");
+            field.Add("OrderLookupText");
+            //field.Add("ProductId");
+            field.Add("ProductLookupText");
+            field.Add("UnitPrice");
+            field.Add("Quantity");
+            //field.Add("Discount");
+        });
+    })
+    .ShowColumnChooser()
+    .ToolbarSettings(toolbar => toolbar
+        .CustomToolbarItems(new List<object>() {
+            new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_OrderDetail" }
+        })
+        .ShowToolbar()
+        .ToolbarItems(items =>
+        {
+            items.AddTool(ToolBarItems.Search);
+            items.AddTool(ToolBarItems.Add);
+            items.AddTool(ToolBarItems.Edit);
+            items.AddTool(ToolBarItems.Delete);
+            items.AddTool(ToolBarItems.ExcelExport);
+            items.AddTool(ToolBarItems.PdfExport);
+            items.AddTool(ToolBarItems.WordExport);
+        })
+    )
+)
+
+@Html.OperationResult(Model.OperationResult)
+
+<script type="text/x-jsrender" id="Toolbar_Grid_OrderDetail">
+    <div id="Toolbar_Grid_OrderDetail_Read" class="e-toolbaricons e-icon e-document" title="@PresentationResources.Read"></div>
+</script>
+
+<script>
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+    
+            ej.widget.init($("#Ajax"));
+            var title = $("#OrderDetail_Title");       
+
+            var gridOrderDetail = $("#Grid_OrderDetail");
+            var ejGridOrderDetail = gridOrderDetail.data("ejGrid");
+    
+            if (ejGridOrderDetail.model.filterSettings.filteredColumns.length != 0) {
+                ejGridOrderDetail.clearFiltering();
+            }
+                
+            if (!model.IsMasterDetail) {
+                title.css("display", "block");
+                $(document).prop("title", "@Html.Raw(AppHelper.DocumentTitle(ViewBag.Title))");
+                
+                ejGridOrderDetail.setModel({
+                    allowGrouping: true,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Search,
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete,
+                            ej.Grid.ToolBarItems.ExcelExport,
+                            ej.Grid.ToolBarItems.PdfExport,
+                            ej.Grid.ToolBarItems.WordExport
+                        ]                    
+                    }
+                });
+            } else {
+                title.css("display", "none");
+    
+                ejGridOrderDetail.setModel({
+                    allowGrouping: false,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete
+                        ]                    
+                    }
+                });
+
+                if (model.MasterOrderId != null) {
+                    ejGridOrderDetail.filterColumn("OrderId", ej.FilterOperators.equal, model.MasterOrderId, ej.Predicate.and);
+                } else if (model.MasterProductId != null) {
+                    ejGridOrderDetail.filterColumn("ProductId", ej.FilterOperators.equal, model.MasterProductId, ej.Predicate.and);
+                }
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderDetailCollection.cshtml", "function()", exception));
+        }                
+    });
+    
+    function actionBegin_Grid_OrderDetail(args) {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var masterControllerAction = model.MasterControllerAction == null ? "" : model.MasterControllerAction.toLowerCase();
+    
+            // Associations (FK)
+            var url = "";
+            // Order
+            if (model.MasterOrderId != null) {
+                url = url + (url == "" ? "" : "&") + "MasterOrderId=" + String(model.MasterOrderId);
+            }
+            // Product
+            if (model.MasterProductId != null) {
+                url = url + (url == "" ? "" : "&") + "MasterProductId=" + String(model.MasterProductId);
+            }
+
+            if (masterControllerAction == "" || masterControllerAction == "update") {
+                switch(args.requestType) {
+                    case "add":
+                        // Create
+                        if (model.IsSecurityOperations.IsCreate) {
+                            $("#Ajax").load("@(Url.Action("Create", "OrderDetail", null, Request.Url.Scheme))" + (url == "" ? "" : "?") + url);
+                        }
+                        break;
+                    case "read":
+                        // Read
+                        if (model.IsSecurityOperations.IsRead) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Read", "OrderDetail", null, Request.Url.Scheme))?OrderId=" + String(data.OrderId) + "&ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;                        
+                    case "beginedit":
+                        // Update
+                        if (model.IsSecurityOperations.IsUpdate) {
+                            var data = this.model.currentViewData[args.rowIndex];
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Update", "OrderDetail", null, Request.Url.Scheme))?OrderId=" + String(data.OrderId) + "&ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                    case "delete":
+                        // Delete
+                        if (model.IsSecurityOperations.IsDelete) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Delete", "OrderDetail", null, Request.Url.Scheme))?OrderId=" + String(data.OrderId) + "&ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                }
+            }
+
+            if (args.requestType == "add" || args.requestType == "beginedit" || args.requestType == "delete") {
+                args.cancel = true;
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderDetailCollection.cshtml", "actionBegin_Grid_OrderDetail(args)", exception));
+        }            
+    }
+    
+    function actionFailure_Grid_OrderDetail(args) {
+        try {
+            alert(zErrorMessage(args.error.responseText));
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderDetailCollection.cshtml", "actionFailure_Grid_OrderDetail(args)", exception));
+        }
+    }    
+
+    function load_Grid_OrderDetail(args) {
+        try {            
+            var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
+            this.model.locale = culture;
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderDetailCollection.cshtml", "load_Grid_OrderDetail(args)", exception));
+        }
+    }
+
+    function toolbarClick_Grid_OrderDetail(sender) {
+        try {
+            var toolbar = $(sender.target);
+            var gridOrderDetail = $("#Grid_OrderDetail");
+            var ejGridOrderDetail = gridOrderDetail.data("ejGrid");
+
+            if (toolbar.attr("id") == "Toolbar_Grid_OrderDetail_Read") {
+                var records = ejGridOrderDetail.getSelectedRecords();
+                if (records.length == 1) {
+                    var args = { requestType: "read", data: records[0] };
+                    actionBegin_Grid_OrderDetail(args)
+                }
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderDetailCollection.cshtml", "toolbarClick_Grid_OrderDetail(sender)", exception));
+        }
+    }
+</script>

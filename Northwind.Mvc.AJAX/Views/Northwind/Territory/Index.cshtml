@@ -1,0 +1,14 @@
+@model TerritoryCollectionModel
+
+<div id="Ajax">
+</div>
+
+<script>
+    $(function () {
+        try {
+            $("#Ajax").load("@(Url.Action("Search", "Territory", null, Request.Url.Scheme))");
+        } catch (exception) {
+            zExceptionMessage("Territory Index.cshtml", "function()", exception.message)
+        }
+    });
+</script>

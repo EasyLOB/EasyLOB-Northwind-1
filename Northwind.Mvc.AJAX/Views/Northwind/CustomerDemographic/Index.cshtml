@@ -1,0 +1,14 @@
+@model CustomerDemographicCollectionModel
+
+<div id="Ajax">
+</div>
+
+<script>
+    $(function () {
+        try {
+            $("#Ajax").load("@(Url.Action("Search", "CustomerDemographic", null, Request.Url.Scheme))");
+        } catch (exception) {
+            zExceptionMessage("CustomerDemographic Index.cshtml", "function()", exception.message)
+        }
+    });
+</script>

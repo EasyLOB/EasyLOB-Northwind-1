@@ -1,0 +1,14 @@
+@model RegionCollectionModel
+
+<div id="Ajax">
+</div>
+
+<script>
+    $(function () {
+        try {
+            $("#Ajax").load("@(Url.Action("Search", "Region", null, Request.Url.Scheme))");
+        } catch (exception) {
+            zExceptionMessage("Region Index.cshtml", "function()", exception.message)
+        }
+    });
+</script>

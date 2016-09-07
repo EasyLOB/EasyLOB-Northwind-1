@@ -1,0 +1,100 @@
+@model RegionItemModel
+
+@{
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@Html.HiddenFor(model => model.ControllerAction)
+@Html.HiddenFor(model => model.IsMasterDetail)
+
+@{Html.EJ().Tab("Tab_Region")
+    .ClientSideEvents(clientEvent => clientEvent
+        .ItemActive("itemActive_Tab_Region")
+    )
+    .Items(data =>
+    {
+        data.Add().ID("TabSheet_Region_Region").Text(RegionResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+            
+            <div id="Group_Region_RegionId" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Region.RegionId, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Region.RegionId, new { id = "Region_RegionId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Region.RegionId, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Region_RegionDescription" class="@AppDefaults.CssClassGroup col-md-5">
+                @Html.LabelFor(model => model.Region.RegionDescription, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Region.RegionDescription, new { id = "Region_RegionDescription", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Region.RegionDescription, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+
+        </div>);
+        data.Add().ID("TabSheet_Region_Territory").Text(TerritoryResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+            <div id="Ajax_Region_Territory"></div>
+        </div>);
+    })
+    .Render();
+}
+
+<script>
+    // Validate hidden fields
+    $.validator.setDefaults({ ignore: null });
+    // Parse validators
+    $.validator.unobtrusive.parse($("#Ajax"));
+
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var regionDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Region)))); }();
+            var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
+            
+            var ajaxUrl = "";
+            // Territory
+            ajaxUrl = "@(Html.Raw(Url.Action("Search", "Territory", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterRegionId = Model.Region.RegionId })))";
+            $("#Ajax_Region_Territory").load(ajaxUrl);
+            ej.widget.init($("#Ajax"));
+            $(document).prop("title", "@(ViewBag.Title)");            
+    
+            var readonly = (controllerAction == "delete" || controllerAction == "read");
+            $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
+            if (readonly) {
+                $("img.z-buttonLookup").hide();
+            }
+            else {
+                $("img.z-buttonLookup").show();
+            }
+
+            $("input[name$='_Lookup']").attr("readonly", true);
+
+            if (regionDictionary.IsIdentity) {            
+                $("#Group_Region_RegionId").hide();
+            }
+
+            // Associations (FK)
+
+            // Collections (PK)
+            var display = controllerAction == "create" ? "none" : "block";
+            // Territory
+            var gridTerritory = $("#Grid_Territory");
+            gridTerritory.css("display", display);
+        } catch (exception) {
+            alert(zExceptionMessage("_RegionItem.cshtml", "function()", exception));
+        }
+    });
+
+    function itemActive_Tab_Region(args) { // IE
+        try {
+            switch(args.activeIndex) {
+            // Territory
+                case 1:
+                    $("#Grid_Territory").ejGrid({
+                        allowScrolling: true,
+                        scrollSettings: { width: "100%" }
+                    });
+                    break;
+            }            
+        } catch (exception) {
+            alert(zExceptionMessage("_RegionItem.cshtml", "itemActive_Tab_Region(args)", exception));
+        }
+    }    
+</script>

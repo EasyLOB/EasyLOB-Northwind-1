@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@AppHelper.DocumentTitle(@ViewBag.Title)</title>
+    
+    @* CSS *@
+
+    @System.Web.Optimization.Styles.Render("~/content/z-css.css")
+    @System.Web.Optimization.Styles.Render("~/content/ej/web/z-syncfusion.css")
+    @System.Web.Optimization.Styles.Render("~/content/ej/web/" + EasyLOB.AppDefaults.SyncfusionTheme + "/z-syncfusion-theme.css")
+    @System.Web.Optimization.Styles.Render("~/content/easylob/z-easylob.css")
+
+    @RenderSection("Styles", required: false)
+
+    @* JavaScript *@
+
+    @Scripts.Render("~/scripts/z-jquery.js")
+    @Scripts.Render("~/scripts/z-bootstrap.js")
+    @Scripts.Render("~/scripts/z-modernizr.js")
+    @Scripts.Render("~/scripts/z-syncfusion.js")
+
+    @Scripts.Render("~/scripts/z-jquery-ajax.js")
+
+    @Scripts.Render("~/scripts/z-easylob.js")
+
+    @RenderSection("Scripts", required: false)
+
+</head>
+<body>
+    <div id="Layout_Menu" class="container" style="visibility: hidden;">
+
+        @Html.EJ().Menu("MyMenu").Items(items =>
+        {
+            items.Add().Url(@Url.Content("~/Home")).Id("Home").Text("Home");                        
+            items.Add().Url(@Url.Content("~/Home/About")).Id("About").Text(MenuResources.About);
+            items.Add().Url(@Url.Content("~/Home/Contact")).Id("Contact").Text(MenuResources.Contact);
+            items.Add().Url("").Id("Northwind").Text("Northwind").Children(child =>
+            {
+                child.Add().Url("").Text("Northwind").Children(child1 =>
+                {
+                    child1.Add().Url(@Url.Content("~/Category")).Text(CategoryResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/CustomerCustomerDemo")).Text(CustomerCustomerDemoResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/CustomerDemographic")).Text(CustomerDemographicResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Customer")).Text(CustomerResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Employee")).Text(EmployeeResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/EmployeeTerritory")).Text(EmployeeTerritoryResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/OrderDetail")).Text(OrderDetailResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Order")).Text(OrderResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Product")).Text(ProductResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Region")).Text(RegionResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Shipper")).Text(ShipperResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Supplier")).Text(SupplierResources.EntityPlural);
+                    child1.Add().Url(@Url.Content("~/Territory")).Text(TerritoryResources.EntityPlural);
+                });
+            });
+            items.Add().Url("").Text(AuditTrailResources.AuditTrail).Children(child =>
+            {
+                child.Add().Url(@Url.Content("~/AuditTrailConfiguration")).Text(AuditTrailConfigurationResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/AuditTrailLog")).Text(AuditTrailLogResources.EntityPlural);
+            });
+            items.Add().Url("").Text(SecurityResources.Security).Children(child =>
+            {
+                child.Add().Url(@Url.Content("~/Role")).Text(RoleResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/User")).Text(UserResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/UserRole")).Text(UserRoleResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/Activity")).Text(ActivityResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/ActivityRole")).Text(ActivityRoleResources.EntityPlural);
+                @*
+                child.Add().Url(@Url.Content("~/UserClaim")).Text(UserClaimResources.EntityPlural);
+                child.Add().Url(@Url.Content("~/UserLogin")).Text(UserLoginResources.EntityPlural);
+                *@
+            });
+            items.Add().Url("").Text(SecurityIdentityResources.Identity).Children(child =>
+            {
+                child.Add().Url(@Url.Content("~/Account/Logout")).Text(AccountResources.LogOut);
+                child.Add().Url(@Url.Content("~/Manage/ChangePassword")).Text(ManageResources.ChangePassword);
+            });
+            items.Add().Url("").Text(MenuResources.Globalization).Children(child =>
+            {
+                child.Add().Url(@Url.Content("~/Globalization/Culture?language=en&locale=US")).Text("English {en-US}");
+                child.Add().Url(@Url.Content("~/Globalization/Culture?language=pt&locale=BR")).Text("Português {pt-BR}");
+            });
+        })
+
+        <br />
+
+    </div>
+    <div id="Layout_Content" class="container body-content">
+
+        @*
+        @Html.Raw(ZLibrary.Mvc.MvcHelper.RenderUrlDictionary(Context))
+        *@
+
+        @RenderBody()      
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application { @IdentityHelper.UserName } { @CultureInfo.CurrentCulture.EnglishName - @CultureInfo.CurrentUICulture.EnglishName - <img alt="@CultureInfo.CurrentCulture.Name" class="z-culture-@CultureInfo.CurrentCulture.Name" /> }</p>
+        </footer>
+    </div>
+
+    @* @RenderSection("scripts", required: false) *@
+
+    <script>
+
+        // jQuery Globalize
+        // A monkey patch for jquery.validate.js that allows validation to be internationalised
+        // https://gist.github.com/johnnyreilly/3651751
+        (function ($, Globalize) {
+
+            // Clone original methods we want to call into
+            var originalMethods = {
+                min: $.validator.methods.min,
+                max: $.validator.methods.max,
+                range: $.validator.methods.range
+            };
+
+            // Tell the validator that we want numbers parsed using Globalize
+
+            $.validator.methods.number = function (value, element) {
+                // !!!
+                var parsedValue = value
+                    .replace(/[0-9]/g, "")
+                    .replace("-", "")
+                    .replace(Globalize.cultures[Globalize.cultureSelector].numberFormat["."], "")
+                    .trim();
+                if (parsedValue != "") {
+                    return false;
+                }
+
+                var val = Globalize.parseFloat(value);
+                return this.optional(element) || ($.isNumeric(val));
+            };
+
+            // Tell the validator that we want dates parsed using Globalize
+
+            $.validator.methods.date = function (value, element) {
+                var val = Globalize.parseDate(value);
+                return this.optional(element) || (val);
+            };
+
+            // Tell the validator that we want numbers parsed using Globalize,
+            // then call into original implementation with parsed value
+
+            $.validator.methods.min = function (value, element, param) {
+                // !!!
+                var parsedValue = value
+                    .replace(/[0-9]/g, "")
+                    .replace("-", "")
+                    .replace(Globalize.cultures[Globalize.cultureSelector].numberFormat["."], "")
+                    .trim();
+                if (parsedValue != "") {
+                    return false;
+                }
+
+                var val = Globalize.parseFloat(value);
+                return originalMethods.min.call(this, val, element, param);
+            };
+
+            $.validator.methods.max = function (value, element, param) {
+                // !!!
+                var parsedValue = value
+                    .replace(/[0-9]/g, "")
+                    .replace("-", "")
+                    .replace(Globalize.cultures[Globalize.cultureSelector].numberFormat["."], "")
+                    .trim();
+                if (parsedValue != "") {
+                    return false;
+                }
+
+                var val = Globalize.parseFloat(value);
+                return originalMethods.max.call(this, val, element, param);
+            };
+
+            $.validator.methods.range = function (value, element, param) {
+                // !!!
+                var parsedValue = value
+                    .replace(/[0-9]/g, "")
+                    .replace("-", "")
+                    .replace(Globalize.cultures[Globalize.cultureSelector].numberFormat["."], "")
+                    .trim();
+                if (parsedValue != "") {
+                    return false;
+                }
+
+                var val = Globalize.parseFloat(value);
+                return originalMethods.range.call(this, val, element, param);
+            };
+
+        }(jQuery, Globalize));
+
+        $(function () {
+            try {
+                var isAuthenticated = @Request.IsAuthenticated.ToString().ToLower();
+                //var isAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+
+                if (isAuthenticated)
+                {
+                    $("#MyMenu").show();
+                }
+                else
+                {
+                    $("#MyMenu").hide();
+                }
+
+                // jQuery Globalize
+                Globalize.culture("@CultureInfo.CurrentCulture.Name"); 
+            } catch (exception) {
+                alert(zExceptionMessage("_Layout.cshtml", "function()", exception));
+            }
+        });
+
+    </script>
+</body>
+</html>

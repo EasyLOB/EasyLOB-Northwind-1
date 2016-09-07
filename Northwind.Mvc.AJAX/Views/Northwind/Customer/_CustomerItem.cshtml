@@ -1,0 +1,170 @@
+@model CustomerItemModel
+
+@{
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@Html.HiddenFor(model => model.ControllerAction)
+@Html.HiddenFor(model => model.IsMasterDetail)
+
+@{Html.EJ().Tab("Tab_Customer")
+    .ClientSideEvents(clientEvent => clientEvent
+        .ItemActive("itemActive_Tab_Customer")
+    )
+    .Items(data =>
+    {
+        data.Add().ID("TabSheet_Customer_Customer").Text(CustomerResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+            
+            <div id="Group_Customer_CustomerId" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Customer.CustomerId, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Customer.CustomerId, new { id = "Customer_CustomerId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.CustomerId, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_CompanyName" class="@AppDefaults.CssClassGroup col-md-5">
+                @Html.LabelFor(model => model.Customer.CompanyName, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Customer.CompanyName, new { id = "Customer_CompanyName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.CompanyName, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_ContactName" class="@AppDefaults.CssClassGroup col-md-4">
+                @Html.LabelFor(model => model.Customer.ContactName, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.ContactName, new { id = "Customer_ContactName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.ContactName, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_ContactTitle" class="@AppDefaults.CssClassGroup col-md-4">
+                @Html.LabelFor(model => model.Customer.ContactTitle, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.ContactTitle, new { id = "Customer_ContactTitle", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.ContactTitle, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_Address" class="@AppDefaults.CssClassGroup col-md-6">
+                @Html.LabelFor(model => model.Customer.Address, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.Address, new { id = "Customer_Address", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.Address, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_City" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Customer.City, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.City, new { id = "Customer_City", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.City, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_Region" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Customer.Region, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.Region, new { id = "Customer_Region", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.Region, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_PostalCode" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Customer.PostalCode, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.PostalCode, new { id = "Customer_PostalCode", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.PostalCode, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_Country" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Customer.Country, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.Country, new { id = "Customer_Country", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.Country, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_Phone" class="@AppDefaults.CssClassGroup col-md-3">
+                @Html.LabelFor(model => model.Customer.Phone, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.Phone, new { id = "Customer_Phone", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.Phone, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Customer_Fax" class="@AppDefaults.CssClassGroup col-md-3">
+                @Html.LabelFor(model => model.Customer.Fax, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Customer.Fax, new { id = "Customer_Fax", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Customer.Fax, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+
+        </div>);
+        data.Add().ID("TabSheet_Customer_CustomerCustomerDemo").Text(CustomerCustomerDemoResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+            <div id="Ajax_Customer_CustomerCustomerDemo"></div>
+        </div>);
+        data.Add().ID("TabSheet_Customer_Order").Text(OrderResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+            <div id="Ajax_Customer_Order"></div>
+        </div>);
+    })
+    .Render();
+}
+
+<script>
+    // Validate hidden fields
+    $.validator.setDefaults({ ignore: null });
+    // Parse validators
+    $.validator.unobtrusive.parse($("#Ajax"));
+
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var customerDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Customer)))); }();
+            var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
+            
+            var ajaxUrl = "";
+            // CustomerCustomerDemo
+            ajaxUrl = "@(Html.Raw(Url.Action("Search", "CustomerCustomerDemo", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterCustomerId = Model.Customer.CustomerId })))";
+            $("#Ajax_Customer_CustomerCustomerDemo").load(ajaxUrl);
+            // Order
+            ajaxUrl = "@(Html.Raw(Url.Action("Search", "Order", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterCustomerId = Model.Customer.CustomerId })))";
+            $("#Ajax_Customer_Order").load(ajaxUrl);
+            ej.widget.init($("#Ajax"));
+            $(document).prop("title", "@(ViewBag.Title)");            
+    
+            var readonly = (controllerAction == "delete" || controllerAction == "read");
+            $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
+            if (readonly) {
+                $("img.z-buttonLookup").hide();
+            }
+            else {
+                $("img.z-buttonLookup").show();
+            }
+
+            $("input[name$='_Lookup']").attr("readonly", true);
+
+            if (customerDictionary.IsIdentity) {            
+                $("#Group_Customer_CustomerId").hide();
+            }
+
+            // Associations (FK)
+
+            // Collections (PK)
+            var display = controllerAction == "create" ? "none" : "block";
+            // CustomerCustomerDemo
+            var gridCustomerCustomerDemo = $("#Grid_CustomerCustomerDemo");
+            gridCustomerCustomerDemo.css("display", display);
+            // Order
+            var gridOrder = $("#Grid_Order");
+            gridOrder.css("display", display);
+        } catch (exception) {
+            alert(zExceptionMessage("_CustomerItem.cshtml", "function()", exception));
+        }
+    });
+
+    function itemActive_Tab_Customer(args) { // IE
+        try {
+            switch(args.activeIndex) {
+            // CustomerCustomerDemo
+                case 1:
+                    $("#Grid_CustomerCustomerDemo").ejGrid({
+                        allowScrolling: true,
+                        scrollSettings: { width: "100%" }
+                    });
+                    break;
+            // Order
+                case 2:
+                    $("#Grid_Order").ejGrid({
+                        allowScrolling: true,
+                        scrollSettings: { width: "100%" }
+                    });
+                    break;
+            }            
+        } catch (exception) {
+            alert(zExceptionMessage("_CustomerItem.cshtml", "itemActive_Tab_Customer(args)", exception));
+        }
+    }    
+</script>

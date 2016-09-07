@@ -1,0 +1,14 @@
+@model CategoryCollectionModel
+
+<div id="Ajax">
+</div>
+
+<script>
+    $(function () {
+        try {
+            $("#Ajax").load("@(Url.Action("Search", "Category", null, Request.Url.Scheme))");
+        } catch (exception) {
+            zExceptionMessage("Category Index.cshtml", "function()", exception.message)
+        }
+    });
+</script>

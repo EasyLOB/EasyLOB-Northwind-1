@@ -1,0 +1,14 @@
+@model ProductCollectionModel
+
+<div id="Ajax">
+</div>
+
+<script>
+    $(function () {
+        try {
+            $("#Ajax").load("@(Url.Action("Search", "Product", null, Request.Url.Scheme))");
+        } catch (exception) {
+            zExceptionMessage("Product Index.cshtml", "function()", exception.message)
+        }
+    });
+</script>

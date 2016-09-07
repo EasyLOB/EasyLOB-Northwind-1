@@ -1,0 +1,313 @@
+@model SupplierCollectionModel
+
+@{
+    ViewBag.Title = SupplierResources.EntityPlural;
+}
+
+<div id="Supplier_Title">
+    <h3>@ViewBag.Title</h3>
+</div>
+
+@(Html.EJ().Grid<Supplier>("Grid_Supplier")
+    .Datasource(datasource => datasource
+        .Adaptor(AdaptorType.UrlAdaptor)
+        .URL(Url.Content("~/Supplier/DataSource"))
+    )
+    .AllowFiltering()
+    .AllowGrouping()
+    .AllowPaging()
+    .AllowResizing()
+    .AllowScrolling()
+    .AllowSearching()
+    .AllowSorting()
+    .ClientSideEvents(clientEvent => clientEvent
+        .ActionBegin("actionBegin_Grid_Supplier")
+        .ActionFailure("actionFailure_Grid_Supplier")
+        .Load("load_Grid_Supplier")
+        .ToolbarClick("toolbarClick_Grid_Supplier")
+    )
+    .Columns(column =>
+    {
+        column.Field("SupplierId")
+            .AllowEditing(false)
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(SupplierResources.PropertySupplierId)
+            .IsIdentity(true)
+            .IsPrimaryKey(true)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("CompanyName")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyCompanyName)
+            .Visible(true)
+            .Width(240)
+            .Add();
+        column.Field("ContactName")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyContactName)
+            .Visible(true)
+            .Width(240)
+            .Add();
+        column.Field("ContactTitle")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyContactTitle)
+            .Visible(false)
+            .Width(240)
+            .Add();
+        column.Field("Address")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyAddress)
+            .Visible(false)
+            .Width(240)
+            .Add();
+        column.Field("City")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyCity)
+            .Visible(false)
+            .Width(150)
+            .Add();
+        column.Field("Region")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyRegion)
+            .Visible(false)
+            .Width(150)
+            .Add();
+        column.Field("PostalCode")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyPostalCode)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("Country")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyCountry)
+            .Visible(false)
+            .Width(150)
+            .Add();
+        column.Field("Phone")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyPhone)
+            .Visible(false)
+            .Width(240)
+            .Add();
+        column.Field("Fax")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyFax)
+            .Visible(false)
+            .Width(240)
+            .Add();
+        column.Field("HomePage")
+            .EditType(EditingType.String)
+            .HeaderText(SupplierResources.PropertyHomePage)
+            .Visible(false)
+            .Width(160)
+            .Add();
+    })
+    .EditSettings(edit => edit
+        .AllowAdding()
+        .AllowDeleting()
+        .AllowEditing()
+    )
+    .EnablePersistence()
+    .FilterSettings(filter => filter
+        .EnableCaseSensitivity(false)
+        .FilterType(FilterType.Excel)
+        .MaxFilterChoices(System.Int32.MaxValue)
+    )
+    .Mappers(map => map
+        .ExportToExcelAction(Url.Content("~/Supplier/ExportToExcel"))
+        .ExportToPdfAction(Url.Content("~/Supplier/ExportToPdf"))
+        .ExportToWordAction(Url.Content("~/Supplier/ExportToWord"))
+    )
+    .PageSettings(page => page
+        .PageSize(AppDefaults.SyncfusionRecordsByPage)
+    )
+    .SearchSettings(search =>
+    {
+        search.Fields(field =>
+        {
+            //field.Add("SupplierId");
+            field.Add("CompanyName");
+            field.Add("ContactName");
+            //field.Add("ContactTitle");
+            //field.Add("Address");
+            //field.Add("City");
+            //field.Add("Region");
+            //field.Add("PostalCode");
+            //field.Add("Country");
+            //field.Add("Phone");
+            //field.Add("Fax");
+            //field.Add("HomePage");
+        });
+    })
+    .ShowColumnChooser()
+    .ToolbarSettings(toolbar => toolbar
+        .CustomToolbarItems(new List<object>() {
+            new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Supplier" }
+        })
+        .ShowToolbar()
+        .ToolbarItems(items =>
+        {
+            items.AddTool(ToolBarItems.Search);
+            items.AddTool(ToolBarItems.Add);
+            items.AddTool(ToolBarItems.Edit);
+            items.AddTool(ToolBarItems.Delete);
+            items.AddTool(ToolBarItems.ExcelExport);
+            items.AddTool(ToolBarItems.PdfExport);
+            items.AddTool(ToolBarItems.WordExport);
+        })
+    )
+)
+
+@Html.OperationResult(Model.OperationResult)
+
+<script type="text/x-jsrender" id="Toolbar_Grid_Supplier">
+    <div id="Toolbar_Grid_Supplier_Read" class="e-toolbaricons e-icon e-document" title="@PresentationResources.Read"></div>
+</script>
+
+<script>
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+    
+            ej.widget.init($("#Ajax"));
+            var title = $("#Supplier_Title");       
+
+            var gridSupplier = $("#Grid_Supplier");
+            var ejGridSupplier = gridSupplier.data("ejGrid");
+    
+            if (ejGridSupplier.model.filterSettings.filteredColumns.length != 0) {
+                ejGridSupplier.clearFiltering();
+            }
+                
+            if (!model.IsMasterDetail) {
+                title.css("display", "block");
+                $(document).prop("title", "@Html.Raw(AppHelper.DocumentTitle(ViewBag.Title))");
+                
+                ejGridSupplier.setModel({
+                    allowGrouping: true,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Search,
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete,
+                            ej.Grid.ToolBarItems.ExcelExport,
+                            ej.Grid.ToolBarItems.PdfExport,
+                            ej.Grid.ToolBarItems.WordExport
+                        ]                    
+                    }
+                });
+            } else {
+                title.css("display", "none");
+    
+                ejGridSupplier.setModel({
+                    allowGrouping: false,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete
+                        ]                    
+                    }
+                });
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_SupplierCollection.cshtml", "function()", exception));
+        }                
+    });
+    
+    function actionBegin_Grid_Supplier(args) {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var masterControllerAction = model.MasterControllerAction == null ? "" : model.MasterControllerAction.toLowerCase();
+    
+            // Associations (FK)
+            var url = "";
+
+            if (masterControllerAction == "" || masterControllerAction == "update") {
+                switch(args.requestType) {
+                    case "add":
+                        // Create
+                        if (model.IsSecurityOperations.IsCreate) {
+                            $("#Ajax").load("@(Url.Action("Create", "Supplier", null, Request.Url.Scheme))" + (url == "" ? "" : "?") + url);
+                        }
+                        break;
+                    case "read":
+                        // Read
+                        if (model.IsSecurityOperations.IsRead) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Read", "Supplier", null, Request.Url.Scheme))?SupplierId=" + String(data.SupplierId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;                        
+                    case "beginedit":
+                        // Update
+                        if (model.IsSecurityOperations.IsUpdate) {
+                            var data = this.model.currentViewData[args.rowIndex];
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Update", "Supplier", null, Request.Url.Scheme))?SupplierId=" + String(data.SupplierId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                    case "delete":
+                        // Delete
+                        if (model.IsSecurityOperations.IsDelete) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Delete", "Supplier", null, Request.Url.Scheme))?SupplierId=" + String(data.SupplierId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                }
+            }
+
+            if (args.requestType == "add" || args.requestType == "beginedit" || args.requestType == "delete") {
+                args.cancel = true;
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_SupplierCollection.cshtml", "actionBegin_Grid_Supplier(args)", exception));
+        }            
+    }
+    
+    function actionFailure_Grid_Supplier(args) {
+        try {
+            alert(zErrorMessage(args.error.responseText));
+        } catch (exception) {
+            alert(zExceptionMessage("_SupplierCollection.cshtml", "actionFailure_Grid_Supplier(args)", exception));
+        }
+    }    
+
+    function load_Grid_Supplier(args) {
+        try {            
+            var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
+            this.model.locale = culture;
+        } catch (exception) {
+            alert(zExceptionMessage("_SupplierCollection.cshtml", "load_Grid_Supplier(args)", exception));
+        }
+    }
+
+    function toolbarClick_Grid_Supplier(sender) {
+        try {
+            var toolbar = $(sender.target);
+            var gridSupplier = $("#Grid_Supplier");
+            var ejGridSupplier = gridSupplier.data("ejGrid");
+
+            if (toolbar.attr("id") == "Toolbar_Grid_Supplier_Read") {
+                var records = ejGridSupplier.getSelectedRecords();
+                if (records.length == 1) {
+                    var args = { requestType: "read", data: records[0] };
+                    actionBegin_Grid_Supplier(args)
+                }
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_SupplierCollection.cshtml", "toolbarClick_Grid_Supplier(sender)", exception));
+        }
+    }
+</script>

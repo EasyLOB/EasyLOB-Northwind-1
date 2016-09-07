@@ -1,0 +1,243 @@
+@model LookupModel
+
+<div class="input-group">
+    <span class="input-group-addon"><img id="@(Model.ValueId + "_Button")" class="z-buttonLookup" /></span>
+    @Html.TextBox(Model.ValueId + "_Lookup", Model.Text, new { @class = AppDefaults.CssClassEditor + " z-lookup" })
+</div>
+
+<div id="Modal_Order_Lookup" aria-labelledby="Label_Order_Lookup" class="modal fade col-md-10" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="@PresentationResources.Cancel" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h4 id="Label_Order_Lookup" class="modal-title">@OrderResources.EntityPlural</h4>
+            </div>
+            <div class="modal-body">
+
+                @(Html.EJ().Grid<Order>("Grid_Order_Lookup")
+                    .Datasource(datasource => datasource
+                        .Adaptor(AdaptorType.UrlAdaptor)
+                        .URL(Url.Content("~/Order/DataSource"))
+                    )
+                    .AllowFiltering()
+                    .AllowPaging()
+                    .AllowSearching()
+                    .AllowSorting()
+                    .ClientSideEvents(clientEvent => clientEvent
+                        .ActionFailure("actionFailure_Grid_Order_Lookup")
+                        .Load("load_Grid_Order_Lookup")
+                        .RowSelected("rowSelected_Grid_Order_Lookup")                       
+                    )
+                    .Columns(column =>
+                    {
+                        column.Field("OrderId")
+                            .AllowEditing(false)
+                            .EditType(EditingType.Numeric)
+                            .HeaderText(OrderResources.PropertyOrderId)
+                            .IsIdentity(true)
+                            .IsPrimaryKey(true)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("CustomerId")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyCustomerId)
+                            .Visible(false)
+                            .Width(50)
+                            .Add();
+                        column.Field("CustomerLookupText")
+                            .AllowEditing(false)
+                            .HeaderText(CustomerResources.EntitySingular)
+                            .Visible(true)
+                            .Width(100)
+                            .Add();
+                        column.Field("EmployeeId")
+                            .EditType(EditingType.Numeric)
+                            .HeaderText(OrderResources.PropertyEmployeeId)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("EmployeeLookupText")
+                            .AllowEditing(false)
+                            .HeaderText(EmployeeResources.EntitySingular)
+                            .Visible(true)
+                            .Width(100)
+                            .Add();
+                        column.Field("OrderDate")
+                            .EditType(EditingType.DateTimePicker)
+                            .HeaderText(OrderResources.PropertyOrderDate)
+                            .Visible(true)
+                            .Width(100)
+                            .Add();
+                        column.Field("RequiredDate")
+                            .EditType(EditingType.DateTimePicker)
+                            .HeaderText(OrderResources.PropertyRequiredDate)
+                            .Visible(true)
+                            .Width(100)
+                            .Add();
+                        column.Field("ShippedDate")
+                            .EditType(EditingType.DateTimePicker)
+                            .HeaderText(OrderResources.PropertyShippedDate)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("ShipVia")
+                            .EditType(EditingType.Numeric)
+                            .HeaderText(OrderResources.PropertyShipVia)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("ShipperLookupText")
+                            .AllowEditing(false)
+                            .HeaderText(ShipperResources.EntitySingular)
+                            .Visible(true)
+                            .Width(100)
+                            .Add();
+                        column.Field("Freight")
+                            .EditType(EditingType.Numeric)
+                            .HeaderText(OrderResources.PropertyFreight)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("ShipName")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipName)
+                            .Visible(false)
+                            .Width(240)
+                            .Add();
+                        column.Field("ShipAddress")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipAddress)
+                            .Visible(false)
+                            .Width(240)
+                            .Add();
+                        column.Field("ShipCity")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipCity)
+                            .Visible(false)
+                            .Width(150)
+                            .Add();
+                        column.Field("ShipRegion")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipRegion)
+                            .Visible(false)
+                            .Width(150)
+                            .Add();
+                        column.Field("ShipPostalCode")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipPostalCode)
+                            .Visible(false)
+                            .Width(100)
+                            .Add();
+                        column.Field("ShipCountry")
+                            .EditType(EditingType.String)
+                            .HeaderText(OrderResources.PropertyShipCountry)
+                            .Visible(false)
+                            .Width(150)
+                            .Add();
+                    })
+                    .FilterSettings(filter => filter
+                        .EnableCaseSensitivity(false)
+                        .FilterType(FilterType.Excel)
+                        .MaxFilterChoices(System.Int32.MaxValue)
+                    )
+                    .PageSettings(page => page
+                        .PageSize(AppDefaults.SyncfusionRecordsByPage)
+                    )
+                    .SearchSettings(search =>
+                    {
+                        search.Fields(field =>
+                        {
+                            //field.Add("OrderId");
+                            //field.Add("CustomerId");
+                            //field.Add("CustomerLookupText");
+                            //field.Add("EmployeeId");
+                            //field.Add("EmployeeLookupText");
+                            field.Add("OrderDate");
+                            field.Add("RequiredDate");
+                            //field.Add("ShippedDate");
+                            //field.Add("ShipVia");
+                            //field.Add("ShipperLookupText");
+                            //field.Add("Freight");
+                            //field.Add("ShipName");
+                            //field.Add("ShipAddress");
+                            //field.Add("ShipCity");
+                            //field.Add("ShipRegion");
+                            //field.Add("ShipPostalCode");
+                            //field.Add("ShipCountry");
+                        });
+                    })
+                    .ShowColumnChooser()
+                    .ToolbarSettings(toolbar => toolbar
+                        .ShowToolbar()
+                        .ToolbarItems(items =>
+                        {
+                            items.AddTool(ToolBarItems.Search);
+                        })
+                    )
+                )
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+@Html.OperationResult(Model.OperationResult)
+*@
+
+<script>
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+    
+            $("#@Model.ValueId").hide();
+    
+            $("#@(Model.ValueId)_Button").click(function () {
+                $("#Modal_Order_Lookup").modal("show");
+            });
+    
+            $("#@(Model.ValueId)_Lookup").attr("readonly", true);
+            $("#@(Model.ValueId)_Lookup").val(model.Text.toLocaleString("@CultureInfo.CurrentCulture.Name"));
+    
+            $("#Modal_Order_Lookup").modal("hide");
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderLookup.cshtml", "function ()", exception));
+        }
+    });
+    
+    function actionFailure_Grid_Order_Lookup(args) {
+        try {
+            alert(zErrorMessage(args.error.responseText));
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderLookup.cshtml", "actionFailure_Grid_Order_Lookup(args)", exception));
+        }
+    }    
+
+    function load_Grid_Order_Lookup(args) {
+        try {            
+            var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
+            this.model.locale = culture;
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderLookup.cshtml", "load_Grid_Order_Lookup(args)", exception));
+        }
+    }
+
+    function rowSelected_Grid_Order_Lookup(args) {
+        try {
+            var data = this.model.currentViewData[args.rowIndex];
+    
+            $("#@(Model.ValueId)").val(data.OrderId);
+    
+            $("#@(Model.ValueId)_Lookup").val(data.LookupText);
+
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
+            zLookupElements(data, model.Elements, culture);
+    
+            $("#Modal_Order_Lookup").modal("hide");
+        } catch (exception) {
+            alert(zExceptionMessage("_OrderLookup.cshtml", "rowSelected_Grid_Order_Lookup(args)", exception));
+        }
+    }
+</script>

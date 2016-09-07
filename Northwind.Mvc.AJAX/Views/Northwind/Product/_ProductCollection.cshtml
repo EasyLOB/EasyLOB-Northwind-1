@@ -1,0 +1,339 @@
+@model ProductCollectionModel
+
+@{
+    ViewBag.Title = ProductResources.EntityPlural;
+}
+
+<div id="Product_Title">
+    <h3>@ViewBag.Title</h3>
+</div>
+
+@(Html.EJ().Grid<Product>("Grid_Product")
+    .Datasource(datasource => datasource
+        .Adaptor(AdaptorType.UrlAdaptor)
+        .URL(Url.Content("~/Product/DataSource"))
+    )
+    .AllowFiltering()
+    .AllowGrouping()
+    .AllowPaging()
+    .AllowResizing()
+    .AllowScrolling()
+    .AllowSearching()
+    .AllowSorting()
+    .ClientSideEvents(clientEvent => clientEvent
+        .ActionBegin("actionBegin_Grid_Product")
+        .ActionFailure("actionFailure_Grid_Product")
+        .Load("load_Grid_Product")
+        .ToolbarClick("toolbarClick_Grid_Product")
+    )
+    .Columns(column =>
+    {
+        column.Field("ProductId")
+            .AllowEditing(false)
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertyProductId)
+            .IsIdentity(true)
+            .IsPrimaryKey(true)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("ProductName")
+            .EditType(EditingType.String)
+            .HeaderText(ProductResources.PropertyProductName)
+            .Visible(true)
+            .Width(240)
+            .Add();
+        column.Field("SupplierId")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertySupplierId)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("SupplierLookupText")
+            .AllowEditing(false)
+            .HeaderText(SupplierResources.EntitySingular)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("CategoryId")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertyCategoryId)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("CategoryLookupText")
+            .AllowEditing(false)
+            .HeaderText(CategoryResources.EntitySingular)
+            .Visible(true)
+            .Width(100)
+            .Add();
+        column.Field("QuantityPerUnit")
+            .EditType(EditingType.String)
+            .HeaderText(ProductResources.PropertyQuantityPerUnit)
+            .Visible(true)
+            .Width(200)
+            .Add();
+        column.Field("UnitPrice")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Float)
+            .HeaderText(ProductResources.PropertyUnitPrice)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("UnitsInStock")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertyUnitsInStock)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("UnitsOnOrder")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertyUnitsOnOrder)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("ReorderLevel")
+            .EditType(EditingType.Numeric)
+            .Format(SyncfusionPatternResources.GridFormat_Integer)
+            .HeaderText(ProductResources.PropertyReorderLevel)
+            .TextAlign(TextAlign.Right)
+            .Visible(false)
+            .Width(100)
+            .Add();
+        column.Field("Discontinued")
+            .EditType(EditingType.String)
+            .HeaderText(ProductResources.PropertyDiscontinued)
+            .Visible(false)
+            .Width(100)
+            .Add();
+    })
+    .EditSettings(edit => edit
+        .AllowAdding()
+        .AllowDeleting()
+        .AllowEditing()
+    )
+    .EnablePersistence()
+    .FilterSettings(filter => filter
+        .EnableCaseSensitivity(false)
+        .FilterType(FilterType.Excel)
+        .MaxFilterChoices(System.Int32.MaxValue)
+    )
+    .Mappers(map => map
+        .ExportToExcelAction(Url.Content("~/Product/ExportToExcel"))
+        .ExportToPdfAction(Url.Content("~/Product/ExportToPdf"))
+        .ExportToWordAction(Url.Content("~/Product/ExportToWord"))
+    )
+    .PageSettings(page => page
+        .PageSize(AppDefaults.SyncfusionRecordsByPage)
+    )
+    .SearchSettings(search =>
+    {
+        search.Fields(field =>
+        {
+            //field.Add("ProductId");
+            field.Add("ProductName");
+            //field.Add("SupplierId");
+            field.Add("SupplierLookupText");
+            //field.Add("CategoryId");
+            field.Add("CategoryLookupText");
+            field.Add("QuantityPerUnit");
+            //field.Add("UnitPrice");
+            //field.Add("UnitsInStock");
+            //field.Add("UnitsOnOrder");
+            //field.Add("ReorderLevel");
+            //field.Add("Discontinued");
+        });
+    })
+    .ShowColumnChooser()
+    .ToolbarSettings(toolbar => toolbar
+        .CustomToolbarItems(new List<object>() {
+            new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Product" }
+        })
+        .ShowToolbar()
+        .ToolbarItems(items =>
+        {
+            items.AddTool(ToolBarItems.Search);
+            items.AddTool(ToolBarItems.Add);
+            items.AddTool(ToolBarItems.Edit);
+            items.AddTool(ToolBarItems.Delete);
+            items.AddTool(ToolBarItems.ExcelExport);
+            items.AddTool(ToolBarItems.PdfExport);
+            items.AddTool(ToolBarItems.WordExport);
+        })
+    )
+)
+
+@Html.OperationResult(Model.OperationResult)
+
+<script type="text/x-jsrender" id="Toolbar_Grid_Product">
+    <div id="Toolbar_Grid_Product_Read" class="e-toolbaricons e-icon e-document" title="@PresentationResources.Read"></div>
+</script>
+
+<script>
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+    
+            ej.widget.init($("#Ajax"));
+            var title = $("#Product_Title");       
+
+            var gridProduct = $("#Grid_Product");
+            var ejGridProduct = gridProduct.data("ejGrid");
+    
+            if (ejGridProduct.model.filterSettings.filteredColumns.length != 0) {
+                ejGridProduct.clearFiltering();
+            }
+                
+            if (!model.IsMasterDetail) {
+                title.css("display", "block");
+                $(document).prop("title", "@Html.Raw(AppHelper.DocumentTitle(ViewBag.Title))");
+                
+                ejGridProduct.setModel({
+                    allowGrouping: true,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Search,
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete,
+                            ej.Grid.ToolBarItems.ExcelExport,
+                            ej.Grid.ToolBarItems.PdfExport,
+                            ej.Grid.ToolBarItems.WordExport
+                        ]                    
+                    }
+                });
+            } else {
+                title.css("display", "none");
+    
+                ejGridProduct.setModel({
+                    allowGrouping: false,
+                    toolbarSettings: {
+                        showToolbar: true,
+                        toolbarItems: [
+                            ej.Grid.ToolBarItems.Add,
+                            ej.Grid.ToolBarItems.Edit,
+                            ej.Grid.ToolBarItems.Delete
+                        ]                    
+                    }
+                });
+
+                if (model.MasterCategoryId != null) {
+                    ejGridProduct.filterColumn("CategoryId", ej.FilterOperators.equal, model.MasterCategoryId, ej.Predicate.and);
+                } else if (model.MasterSupplierId != null) {
+                    ejGridProduct.filterColumn("SupplierId", ej.FilterOperators.equal, model.MasterSupplierId, ej.Predicate.and);
+                }
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_ProductCollection.cshtml", "function()", exception));
+        }                
+    });
+    
+    function actionBegin_Grid_Product(args) {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var masterControllerAction = model.MasterControllerAction == null ? "" : model.MasterControllerAction.toLowerCase();
+    
+            // Associations (FK)
+            var url = "";
+            // Category
+            if (model.MasterCategoryId != null) {
+                url = url + (url == "" ? "" : "&") + "MasterCategoryId=" + String(model.MasterCategoryId);
+            }
+            // Supplier
+            if (model.MasterSupplierId != null) {
+                url = url + (url == "" ? "" : "&") + "MasterSupplierId=" + String(model.MasterSupplierId);
+            }
+
+            if (masterControllerAction == "" || masterControllerAction == "update") {
+                switch(args.requestType) {
+                    case "add":
+                        // Create
+                        if (model.IsSecurityOperations.IsCreate) {
+                            $("#Ajax").load("@(Url.Action("Create", "Product", null, Request.Url.Scheme))" + (url == "" ? "" : "?") + url);
+                        }
+                        break;
+                    case "read":
+                        // Read
+                        if (model.IsSecurityOperations.IsRead) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Read", "Product", null, Request.Url.Scheme))?ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;                        
+                    case "beginedit":
+                        // Update
+                        if (model.IsSecurityOperations.IsUpdate) {
+                            var data = this.model.currentViewData[args.rowIndex];
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Update", "Product", null, Request.Url.Scheme))?ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                    case "delete":
+                        // Delete
+                        if (model.IsSecurityOperations.IsDelete) {
+                            var data = args.data;
+                            if (!ej.isNullOrUndefined(data)) {
+                                $("#Ajax").load("@(Url.Action("Delete", "Product", null, Request.Url.Scheme))?ProductId=" + String(data.ProductId) + (url == "" ? "" : "&") + url);
+                            }
+                        }
+                        break;
+                }
+            }
+
+            if (args.requestType == "add" || args.requestType == "beginedit" || args.requestType == "delete") {
+                args.cancel = true;
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_ProductCollection.cshtml", "actionBegin_Grid_Product(args)", exception));
+        }            
+    }
+    
+    function actionFailure_Grid_Product(args) {
+        try {
+            alert(zErrorMessage(args.error.responseText));
+        } catch (exception) {
+            alert(zExceptionMessage("_ProductCollection.cshtml", "actionFailure_Grid_Product(args)", exception));
+        }
+    }    
+
+    function load_Grid_Product(args) {
+        try {            
+            var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
+            this.model.locale = culture;
+        } catch (exception) {
+            alert(zExceptionMessage("_ProductCollection.cshtml", "load_Grid_Product(args)", exception));
+        }
+    }
+
+    function toolbarClick_Grid_Product(sender) {
+        try {
+            var toolbar = $(sender.target);
+            var gridProduct = $("#Grid_Product");
+            var ejGridProduct = gridProduct.data("ejGrid");
+
+            if (toolbar.attr("id") == "Toolbar_Grid_Product_Read") {
+                var records = ejGridProduct.getSelectedRecords();
+                if (records.length == 1) {
+                    var args = { requestType: "read", data: records[0] };
+                    actionBegin_Grid_Product(args)
+                }
+            }
+        } catch (exception) {
+            alert(zExceptionMessage("_ProductCollection.cshtml", "toolbarClick_Grid_Product(sender)", exception));
+        }
+    }
+</script>

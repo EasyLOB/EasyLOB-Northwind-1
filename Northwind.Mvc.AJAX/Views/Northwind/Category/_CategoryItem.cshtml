@@ -1,0 +1,118 @@
+@model CategoryItemModel
+
+@{
+    string category_Picture_Base64 = Convert.ToBase64String(new byte[] {});
+    if (Model.Category != null && Model.Category.Picture != null)
+    {
+        category_Picture_Base64 = Convert.ToBase64String(Model.Category.Picture);
+    }
+    string category_Picture_Source = string.Format("data:image/jpg;base64,{0}", category_Picture_Base64);        
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@Html.HiddenFor(model => model.ControllerAction)
+@Html.HiddenFor(model => model.IsMasterDetail)
+
+@{Html.EJ().Tab("Tab_Category")
+    .ClientSideEvents(clientEvent => clientEvent
+        .ItemActive("itemActive_Tab_Category")
+    )
+    .Items(data =>
+    {
+        data.Add().ID("TabSheet_Category_Category").Text(CategoryResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+            
+            <div id="Group_Category_CategoryId" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Category.CategoryId, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Category.CategoryId, new { id = "Category_CategoryId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Category.CategoryId, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Category_CategoryName" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.LabelFor(model => model.Category.CategoryName, new { @class = AppDefaults.CssClassLabelRequired })
+                @Html.EditorFor(model => model.Category.CategoryName, new { id = "Category_CategoryName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Category_Description" class="@AppDefaults.CssClassGroup col-md-3">
+                @Html.LabelFor(model => model.Category.Description, new { @class = AppDefaults.CssClassLabel })
+                @Html.EditorFor(model => model.Category.Description, new { id = "Category_Description", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                @Html.ValidationMessageFor(model => model.Category.Description, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+            
+            <div id="Group_Category_Picture" class="@AppDefaults.CssClassGroup col-md-2">
+                @Html.Label(@CategoryResources.PropertyPicture, new { @class = AppDefaults.CssClassLabel })
+                <img src="@category_Picture_Source" class="z-image" />
+                @Html.ValidationMessageFor(model => model.Category.Picture, "", new { @class = AppDefaults.CssClassValidator })
+            </div>
+
+        </div>);
+        data.Add().ID("TabSheet_Category_Product").Text(ProductResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+            <div id="Ajax_Category_Product"></div>
+        </div>);
+    })
+    .Render();
+}
+
+<script>
+    // Validate hidden fields
+    $.validator.setDefaults({ ignore: null });
+    // Parse validators
+    $.validator.unobtrusive.parse($("#Ajax"));
+
+    $(function () {
+        try {
+            var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
+            var categoryDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Category)))); }();
+            var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
+            
+            var ajaxUrl = "";
+            // Product
+            ajaxUrl = "@(Html.Raw(Url.Action("Search", "Product", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterCategoryId = Model.Category.CategoryId })))";
+            $("#Ajax_Category_Product").load(ajaxUrl);
+            ej.widget.init($("#Ajax"));
+            $(document).prop("title", "@(ViewBag.Title)");            
+    
+            var readonly = (controllerAction == "delete" || controllerAction == "read");
+            $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
+            if (readonly) {
+                $("img.z-buttonLookup").hide();
+            }
+            else {
+                $("img.z-buttonLookup").show();
+            }
+
+            $("input[name$='_Lookup']").attr("readonly", true);
+
+            if (categoryDictionary.IsIdentity) {            
+                $("#Group_Category_CategoryId").hide();
+            }
+
+            // Associations (FK)
+
+            // Collections (PK)
+            var display = controllerAction == "create" ? "none" : "block";
+            // Product
+            var gridProduct = $("#Grid_Product");
+            gridProduct.css("display", display);
+        } catch (exception) {
+            alert(zExceptionMessage("_CategoryItem.cshtml", "function()", exception));
+        }
+    });
+
+    function itemActive_Tab_Category(args) { // IE
+        try {
+            switch(args.activeIndex) {
+            // Product
+                case 1:
+                    $("#Grid_Product").ejGrid({
+                        allowScrolling: true,
+                        scrollSettings: { width: "100%" }
+                    });
+                    break;
+            }            
+        } catch (exception) {
+            alert(zExceptionMessage("_CategoryItem.cshtml", "itemActive_Tab_Category(args)", exception));
+        }
+    }    
+</script>

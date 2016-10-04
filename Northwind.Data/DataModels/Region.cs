@@ -24,19 +24,9 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDataBase
-
-        public override string LookupText
-        {
-            get { return base.LookupText; }
-            set { }
-        }
-
-        #endregion Properties ZDataBase
-
         #region Collections (PK)
 
-        public virtual IList<Territory> Territories { get; set; }
+        public virtual IList<Territory> Territories { get; }
 
         #endregion Collections (PK)
 

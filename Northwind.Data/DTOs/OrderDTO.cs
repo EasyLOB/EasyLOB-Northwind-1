@@ -50,16 +50,24 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public OrderDTO()
         {
+            OrderId = LibraryDefaults.Default_Int32;
+            CustomerId = null;
+            EmployeeId = null;
+            OrderDate = null;
+            RequiredDate = null;
+            ShippedDate = null;
+            ShipVia = null;
+            Freight = null;
+            ShipName = null;
+            ShipAddress = null;
+            ShipCity = null;
+            ShipRegion = null;
+            ShipPostalCode = null;
+            ShipCountry = null;
         }
         
         public OrderDTO(

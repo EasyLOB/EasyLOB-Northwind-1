@@ -75,7 +75,7 @@ namespace Northwind.Mvc
                 regionCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_RegionCollection", regionCollectionModel);
+            return PartialView(regionCollectionModel);
         }
 
         // GET & POST: Region/Lookup

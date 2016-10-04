@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyRegionId", ResourceType = typeof(RegionResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int RegionId { get; set; }
         
@@ -26,17 +25,12 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public RegionViewModel()
         {
-            RegionId = 1;
+            RegionId = LibraryDefaults.Default_Int32;
+            RegionDescription = LibraryDefaults.Default_String;
         }
         
         public RegionViewModel(
@@ -68,8 +62,7 @@ namespace Northwind.Data
             return x => new RegionDTO
             {
                 RegionId = x.RegionId,
-                RegionDescription = x.RegionDescription,
-                LookupText = x.LookupText
+                RegionDescription = x.RegionDescription
             };
         }
 

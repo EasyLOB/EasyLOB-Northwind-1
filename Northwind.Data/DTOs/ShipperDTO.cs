@@ -18,16 +18,13 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public ShipperDTO()
         {
+            ShipperId = LibraryDefaults.Default_Int32;
+            CompanyName = LibraryDefaults.Default_String;
+            Phone = null;
         }
         
         public ShipperDTO(

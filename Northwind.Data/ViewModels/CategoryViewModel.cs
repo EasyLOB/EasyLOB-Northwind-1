@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyCategoryId", ResourceType = typeof(CategoryResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int CategoryId { get; set; }
         
@@ -33,17 +32,14 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public CategoryViewModel()
         {
-            CategoryId = 1;
+            CategoryId = LibraryDefaults.Default_Int32;
+            CategoryName = LibraryDefaults.Default_String;
+            Description = null;
+            Picture = null;
         }
         
         public CategoryViewModel(
@@ -52,7 +48,6 @@ namespace Northwind.Data
             string description = null,
             byte[] picture = null
         )
-            : this()
         {
             CategoryId = categoryId;
             CategoryName = categoryName;
@@ -81,8 +76,7 @@ namespace Northwind.Data
                 CategoryId = x.CategoryId,
                 CategoryName = x.CategoryName,
                 Description = x.Description,
-                Picture = x.Picture,
-                LookupText = x.LookupText
+                Picture = x.Picture
             };
         }
 

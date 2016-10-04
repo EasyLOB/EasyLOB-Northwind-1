@@ -1,40 +1,39 @@
-@model CustomerDemographicItemModel
+﻿@model CustomerDemographicItemModel
 
 @{
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_CustomerDemographic">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
 
-@{Html.EJ().Tab("Tab_CustomerDemographic")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_CustomerDemographic")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_CustomerDemographic_CustomerDemographic").Text(CustomerDemographicResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_CustomerDemographic_CustomerTypeId" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.CustomerDemographic.CustomerTypeId, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.CustomerDemographic.CustomerTypeId, new { id = "CustomerDemographic_CustomerTypeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.CustomerDemographic.CustomerTypeId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_CustomerDemographic_CustomerDesc" class="@AppDefaults.CssClassGroup col-md-3">
-                @Html.LabelFor(model => model.CustomerDemographic.CustomerDesc, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.CustomerDemographic.CustomerDesc, new { id = "CustomerDemographic_CustomerDesc", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.CustomerDemographic.CustomerDesc, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_CustomerDemographic")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_CustomerDemographic_CustomerDemographic").Text(CustomerDemographicResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_CustomerDemographic_CustomerTypeId" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.CustomerDemographic.CustomerTypeId, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.CustomerDemographic.CustomerTypeId, new { id = "CustomerDemographic_CustomerTypeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.CustomerDemographic.CustomerTypeId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_CustomerDemographic_CustomerDesc" class="@AppDefaults.CssClassGroup col-md-3">
+                    @Html.LabelFor(model => model.CustomerDemographic.CustomerDesc, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.CustomerDemographic.CustomerDesc, new { id = "CustomerDemographic_CustomerDesc", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.CustomerDemographic.CustomerDesc, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-        data.Add().ID("TabSheet_CustomerDemographic_CustomerCustomerDemo").Text(CustomerCustomerDemoResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
-            <div id="Ajax_CustomerDemographic_CustomerCustomerDemo"></div>
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+            data.Add().ID("TabSheet_CustomerDemographic_CustomerCustomerDemo").Text(CustomerCustomerDemoResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+                <div id="Ajax_CustomerDemographic_CustomerCustomerDemo"></div>
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -48,13 +47,25 @@
             var customerDemographicDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(CustomerDemographic)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
             // CustomerCustomerDemo
             ajaxUrl = "@(Html.Raw(Url.Action("Search", "CustomerCustomerDemo", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterCustomerTypeId = Model.CustomerDemographic.CustomerTypeId })))";
             $("#Ajax_CustomerDemographic_CustomerCustomerDemo").load(ajaxUrl);
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_CustomerDemographic"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_CustomerDemographic").css("display", "block");
+            }
+            else {
+                $("#Item_CustomerDemographic").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -75,26 +86,9 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
             // CustomerCustomerDemo
-            var gridCustomerCustomerDemo = $("#Grid_CustomerCustomerDemo");
-            gridCustomerCustomerDemo.css("display", display);
+            $("#Grid_CustomerCustomerDemo").css("display", display);
         } catch (exception) {
-            alert(zExceptionMessage("_CustomerDemographicItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_CustomerDemographicItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_CustomerDemographic(args) { // IE
-        try {
-            switch(args.activeIndex) {
-            // CustomerCustomerDemo
-                case 1:
-                    $("#Grid_CustomerCustomerDemo").ejGrid({
-                        allowScrolling: true,
-                        scrollSettings: { width: "100%" }
-                    });
-                    break;
-            }            
-        } catch (exception) {
-            alert(zExceptionMessage("_CustomerDemographicItem.cshtml", "itemActive_Tab_CustomerDemographic(args)", exception));
-        }
-    }    
 </script>

@@ -34,16 +34,21 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public CustomerDTO()
         {
+            CustomerId = LibraryDefaults.Default_String;
+            CompanyName = LibraryDefaults.Default_String;
+            ContactName = null;
+            ContactTitle = null;
+            Address = null;
+            City = null;
+            Region = null;
+            PostalCode = null;
+            Country = null;
+            Phone = null;
+            Fax = null;
         }
         
         public CustomerDTO(

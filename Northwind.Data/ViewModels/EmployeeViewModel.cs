@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyEmployeeId", ResourceType = typeof(EmployeeResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int EmployeeId { get; set; }
         
@@ -96,17 +95,28 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public EmployeeViewModel()
         {
-            EmployeeId = 1;
+            EmployeeId = LibraryDefaults.Default_Int32;
+            LastName = LibraryDefaults.Default_String;
+            FirstName = LibraryDefaults.Default_String;
+            Title = null;
+            TitleOfCourtesy = null;
+            BirthDate = null;
+            HireDate = null;
+            Address = null;
+            City = null;
+            Region = null;
+            PostalCode = null;
+            Country = null;
+            HomePhone = null;
+            Extension = null;
+            Photo = null;
+            Notes = null;
+            ReportsTo = null;
+            PhotoPath = null;
         }
         
         public EmployeeViewModel(
@@ -188,9 +198,7 @@ namespace Northwind.Data
                 Photo = x.Photo,
                 Notes = x.Notes,
                 ReportsTo = x.ReportsTo,
-                PhotoPath = x.PhotoPath,
-                EmployeeLookupText = x.EmployeeLookupText,
-                LookupText = x.LookupText
+                PhotoPath = x.PhotoPath
             };
         }
 

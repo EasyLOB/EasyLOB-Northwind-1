@@ -1,4 +1,4 @@
-@model RegionCollectionModel
+﻿@model RegionCollectionModel
 
 <div id="Ajax">
 </div>
@@ -8,7 +8,7 @@
         try {
             $("#Ajax").load("@(Url.Action("Search", "Region", null, Request.Url.Scheme))");
         } catch (exception) {
-            zExceptionMessage("Region Index.cshtml", "function()", exception.message)
+            zExceptionMessage("Region Index.cshtml", "function", exception.message)
         }
     });
 </script>

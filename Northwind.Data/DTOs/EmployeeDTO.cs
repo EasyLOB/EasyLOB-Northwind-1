@@ -54,16 +54,28 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public EmployeeDTO()
         {
+            EmployeeId = LibraryDefaults.Default_Int32;
+            LastName = LibraryDefaults.Default_String;
+            FirstName = LibraryDefaults.Default_String;
+            Title = null;
+            TitleOfCourtesy = null;
+            BirthDate = null;
+            HireDate = null;
+            Address = null;
+            City = null;
+            Region = null;
+            PostalCode = null;
+            Country = null;
+            HomePhone = null;
+            Extension = null;
+            Photo = null;
+            Notes = null;
+            ReportsTo = null;
+            PhotoPath = null;
         }
         
         public EmployeeDTO(

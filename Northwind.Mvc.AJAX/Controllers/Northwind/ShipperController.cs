@@ -75,7 +75,7 @@ namespace Northwind.Mvc
                 shipperCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_ShipperCollection", shipperCollectionModel);
+            return PartialView(shipperCollectionModel);
         }
 
         // GET & POST: Shipper/Lookup

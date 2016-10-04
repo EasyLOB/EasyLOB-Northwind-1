@@ -16,16 +16,12 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public RegionDTO()
         {
+            RegionId = LibraryDefaults.Default_Int32;
+            RegionDescription = LibraryDefaults.Default_String;
         }
         
         public RegionDTO(

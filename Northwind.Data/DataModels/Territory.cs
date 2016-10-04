@@ -36,16 +36,6 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDataBase
-
-        public override string LookupText
-        {
-            get { return base.LookupText; }
-            set { }
-        }
-
-        #endregion Properties ZDataBase
-
         #region Associations (FK)
 
         public virtual Region Region { get; set; } // RegionId
@@ -54,7 +44,7 @@ namespace Northwind.Data
 
         #region Collections (PK)
 
-        public virtual IList<EmployeeTerritory> EmployeeTerritories { get; set; }
+        public virtual IList<EmployeeTerritory> EmployeeTerritories { get; }
 
         #endregion Collections (PK)
 

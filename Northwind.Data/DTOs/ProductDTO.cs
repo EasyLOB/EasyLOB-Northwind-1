@@ -40,16 +40,20 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public ProductDTO()
         {
+            ProductId = LibraryDefaults.Default_Int32;
+            ProductName = LibraryDefaults.Default_String;
+            Discontinued = LibraryDefaults.Default_Boolean;
+            SupplierId = null;
+            CategoryId = null;
+            QuantityPerUnit = null;
+            UnitPrice = null;
+            UnitsInStock = null;
+            UnitsOnOrder = null;
+            ReorderLevel = null;
         }
         
         public ProductDTO(

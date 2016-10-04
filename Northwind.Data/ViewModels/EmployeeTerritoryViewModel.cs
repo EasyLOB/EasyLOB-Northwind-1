@@ -16,7 +16,6 @@ namespace Northwind.Data
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
         //[Column(Order=1)]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int EmployeeId { get; set; }
         
@@ -37,18 +36,12 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public EmployeeTerritoryViewModel()
         {
-            EmployeeId = 1;
-            TerritoryId = "A";
+            EmployeeId = LibraryDefaults.Default_Int32;
+            TerritoryId = LibraryDefaults.Default_String;
         }
         
         public EmployeeTerritoryViewModel(
@@ -84,10 +77,7 @@ namespace Northwind.Data
             return x => new EmployeeTerritoryDTO
             {
                 EmployeeId = x.EmployeeId,
-                TerritoryId = x.TerritoryId,
-                EmployeeLookupText = x.EmployeeLookupText,
-                TerritoryLookupText = x.TerritoryLookupText,
-                LookupText = x.LookupText
+                TerritoryId = x.TerritoryId
             };
         }
 

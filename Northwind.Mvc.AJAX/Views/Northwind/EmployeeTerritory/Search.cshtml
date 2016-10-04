@@ -1,0 +1,16 @@
+﻿@model EmployeeTerritoryCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_EmployeeTerritoryCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("EmployeeTerritory Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

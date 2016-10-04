@@ -1,94 +1,99 @@
-@model RegionCollectionModel
+﻿@model RegionCollectionModel
 
 @{
     ViewBag.Title = RegionResources.EntityPlural;
+    
+    string query = "";
 }
 
-<div id="Region_Title">
+<div id="Collection_Region_Title">
     <h3>@ViewBag.Title</h3>
 </div>
 
-@(Html.EJ().Grid<Region>("Grid_Region")
-    .Datasource(datasource => datasource
-        .Adaptor(AdaptorType.UrlAdaptor)
-        .URL(Url.Content("~/Region/DataSource"))
-    )
-    .AllowFiltering()
-    .AllowGrouping()
-    .AllowPaging()
-    .AllowResizing()
-    .AllowScrolling()
-    .AllowSearching()
-    .AllowSorting()
-    .ClientSideEvents(clientEvent => clientEvent
-        .ActionBegin("actionBegin_Grid_Region")
-        .ActionFailure("actionFailure_Grid_Region")
-        .Load("load_Grid_Region")
-        .ToolbarClick("toolbarClick_Grid_Region")
-    )
-    .Columns(column =>
-    {
-        column.Field("RegionId")
-            .EditType(EditingType.Numeric)
-            .Format(SyncfusionPatternResources.GridFormat_Integer)
-            .HeaderText(RegionResources.PropertyRegionId)
-            .IsPrimaryKey(true)
-            .TextAlign(TextAlign.Right)
-            .Visible(false)
-            .Width(100)
-            .Add();
-        column.Field("RegionDescription")
-            .EditType(EditingType.String)
-            .HeaderText(RegionResources.PropertyRegionDescription)
-            .Visible(true)
-            .Width(240)
-            .Add();
-    })
-    .EditSettings(edit => edit
-        .AllowAdding()
-        .AllowDeleting()
-        .AllowEditing()
-    )
-    .EnablePersistence()
-    .FilterSettings(filter => filter
-        .EnableCaseSensitivity(false)
-        .FilterType(FilterType.Excel)
-        .MaxFilterChoices(System.Int32.MaxValue)
-    )
-    .Mappers(map => map
-        .ExportToExcelAction(Url.Content("~/Region/ExportToExcel"))
-        .ExportToPdfAction(Url.Content("~/Region/ExportToPdf"))
-        .ExportToWordAction(Url.Content("~/Region/ExportToWord"))
-    )
-    .PageSettings(page => page
-        .PageSize(AppDefaults.SyncfusionRecordsByPage)
-    )
-    .SearchSettings(search =>
-    {
-        search.Fields(field =>
+<div id="Collection_Region">
+    @(Html.EJ().Grid<Region>("Grid_Region")
+        .Datasource(datasource => datasource
+            .Adaptor(AdaptorType.UrlAdaptor)
+            .URL(Url.Content("~/Region/DataSource"))
+        )
+        .Query(query)
+        .AllowFiltering()
+        .AllowGrouping()
+        .AllowPaging()
+        .AllowResizing()
+        .AllowScrolling()
+        .AllowSearching()
+        .AllowSorting()
+        .ClientSideEvents(clientEvent => clientEvent
+            .ActionBegin("actionBegin_Grid_Region")
+            .ActionFailure("actionFailure_Grid_Region")
+            .Load("load_Grid_Region")
+            .ToolbarClick("toolbarClick_Grid_Region")
+        )
+        .Columns(column =>
         {
-            //field.Add("RegionId");
-            field.Add("RegionDescription");
-        });
-    })
-    .ShowColumnChooser()
-    .ToolbarSettings(toolbar => toolbar
-        .CustomToolbarItems(new List<object>() {
-            new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Region" }
+            column.Field("RegionId")
+                .EditType(EditingType.Numeric)
+                .Format(SyncfusionPatternResources.GridFormat_Integer)
+                .HeaderText(RegionResources.PropertyRegionId)
+                .IsPrimaryKey(true)
+                .TextAlign(TextAlign.Right)
+                .Visible(false)
+                .Width(100)
+                .Add();
+            column.Field("RegionDescription")
+                .EditType(EditingType.String)
+                .HeaderText(RegionResources.PropertyRegionDescription)
+                .Visible(true)
+                .Width(240)
+                .Add();
         })
-        .ShowToolbar()
-        .ToolbarItems(items =>
+        .EditSettings(edit => edit
+            .AllowAdding()
+            .AllowDeleting()
+            .AllowEditing()
+        )
+        //.EnablePersistence()
+        .FilterSettings(filter => filter
+            .EnableCaseSensitivity(false)
+            .FilterType(FilterType.Excel)
+            .MaxFilterChoices(System.Int32.MaxValue)
+        )
+        .Mappers(map => map
+            .ExportToExcelAction(Url.Content("~/Region/ExportToExcel"))
+            .ExportToPdfAction(Url.Content("~/Region/ExportToPdf"))
+            .ExportToWordAction(Url.Content("~/Region/ExportToWord"))
+        )
+        .PageSettings(page => page
+            .PageSize(AppDefaults.SyncfusionRecordsByPage)
+        )
+        .SearchSettings(search =>
         {
-            items.AddTool(ToolBarItems.Search);
-            items.AddTool(ToolBarItems.Add);
-            items.AddTool(ToolBarItems.Edit);
-            items.AddTool(ToolBarItems.Delete);
-            items.AddTool(ToolBarItems.ExcelExport);
-            items.AddTool(ToolBarItems.PdfExport);
-            items.AddTool(ToolBarItems.WordExport);
+            search.Fields(field =>
+            {
+                //field.Add("RegionId");
+                field.Add("RegionDescription");
+            });
         })
+        .ShowColumnChooser()
+        .ToolbarSettings(toolbar => toolbar
+            .CustomToolbarItems(new List<object>() {
+                new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Region" }
+            })
+            .ShowToolbar()
+            .ToolbarItems(items =>
+            {
+                items.AddTool(ToolBarItems.Search);
+                items.AddTool(ToolBarItems.Add);
+                items.AddTool(ToolBarItems.Edit);
+                items.AddTool(ToolBarItems.Delete);
+                items.AddTool(ToolBarItems.ExcelExport);
+                items.AddTool(ToolBarItems.PdfExport);
+                items.AddTool(ToolBarItems.WordExport);
+            })
+        )
     )
-)
+</div>
 
 @Html.OperationResult(Model.OperationResult)
 
@@ -101,15 +106,19 @@
         try {
             var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
     
-            ej.widget.init($("#Ajax"));
-            var title = $("#Region_Title");       
+            var title = $("#Collection_Region_Title");
+            
+            ej.widget.init($("#Collection_Region"));
+
+            if (model.IsSecurityOperations.IsSearch) {
+                $("#Collection_Region").css("display", "block");
+            }
+            else {
+                $("#Collection_Region").css("display", "none");
+            }
 
             var gridRegion = $("#Grid_Region");
             var ejGridRegion = gridRegion.data("ejGrid");
-    
-            if (ejGridRegion.model.filterSettings.filteredColumns.length != 0) {
-                ejGridRegion.clearFiltering();
-            }
                 
             if (!model.IsMasterDetail) {
                 title.css("display", "block");
@@ -118,7 +127,6 @@
                 ejGridRegion.setModel({
                     allowGrouping: true,
                     toolbarSettings: {
-                        showToolbar: true,
                         toolbarItems: [
                             ej.Grid.ToolBarItems.Search,
                             ej.Grid.ToolBarItems.Add,
@@ -136,7 +144,6 @@
                 ejGridRegion.setModel({
                     allowGrouping: false,
                     toolbarSettings: {
-                        showToolbar: true,
                         toolbarItems: [
                             ej.Grid.ToolBarItems.Add,
                             ej.Grid.ToolBarItems.Edit,
@@ -146,7 +153,7 @@
                 });
             }
         } catch (exception) {
-            alert(zExceptionMessage("_RegionCollection.cshtml", "function()", exception));
+            alert(zExceptionMessage("_RegionCollection.cshtml", "function", exception));
         }                
     });
     
@@ -163,7 +170,8 @@
                     case "add":
                         // Create
                         if (model.IsSecurityOperations.IsCreate) {
-                            $("#Ajax").load("@(Url.Action("Create", "Region", null, Request.Url.Scheme))" + (url == "" ? "" : "?") + url);
+                            $("#Ajax").load("@(Url.Action("Create", "Region", null, Request.Url.Scheme))" +
+                                (url == "" ? "" : "?") + url);
                         }
                         break;
                     case "read":
@@ -171,7 +179,8 @@
                         if (model.IsSecurityOperations.IsRead) {
                             var data = args.data;
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Read", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Read", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;                        
@@ -180,7 +189,8 @@
                         if (model.IsSecurityOperations.IsUpdate) {
                             var data = this.model.currentViewData[args.rowIndex];
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Update", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Update", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;
@@ -189,7 +199,8 @@
                         if (model.IsSecurityOperations.IsDelete) {
                             var data = args.data;
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Delete", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Delete", "Region", null, Request.Url.Scheme))?RegionId=" + String(data.RegionId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;
@@ -200,7 +211,7 @@
                 args.cancel = true;
             }
         } catch (exception) {
-            alert(zExceptionMessage("_RegionCollection.cshtml", "actionBegin_Grid_Region(args)", exception));
+            alert(zExceptionMessage("_RegionCollection.cshtml", "actionBegin_Grid_Region", exception));
         }            
     }
     
@@ -208,7 +219,7 @@
         try {
             alert(zErrorMessage(args.error.responseText));
         } catch (exception) {
-            alert(zExceptionMessage("_RegionCollection.cshtml", "actionFailure_Grid_Region(args)", exception));
+            alert(zExceptionMessage("_RegionCollection.cshtml", "actionFailure_Grid_Region", exception));
         }
     }    
 
@@ -217,7 +228,7 @@
             var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
             this.model.locale = culture;
         } catch (exception) {
-            alert(zExceptionMessage("_RegionCollection.cshtml", "load_Grid_Region(args)", exception));
+            alert(zExceptionMessage("_RegionCollection.cshtml", "load_Grid_Region", exception));
         }
     }
 
@@ -235,7 +246,7 @@
                 }
             }
         } catch (exception) {
-            alert(zExceptionMessage("_RegionCollection.cshtml", "toolbarClick_Grid_Region(sender)", exception));
+            alert(zExceptionMessage("_RegionCollection.cshtml", "toolbarClick_Grid_Region", exception));
         }
     }
 </script>

@@ -1,0 +1,16 @@
+﻿@model OrderCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_OrderCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("Order Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

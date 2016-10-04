@@ -61,17 +61,21 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public CustomerViewModel()
         {
-            CustomerId = "A";
+            CustomerId = LibraryDefaults.Default_String;
+            CompanyName = LibraryDefaults.Default_String;
+            ContactName = null;
+            ContactTitle = null;
+            Address = null;
+            City = null;
+            Region = null;
+            PostalCode = null;
+            Country = null;
+            Phone = null;
+            Fax = null;
         }
         
         public CustomerViewModel(
@@ -87,7 +91,6 @@ namespace Northwind.Data
             string phone = null,
             string fax = null
         )
-            : this()
         {
             CustomerId = customerId;
             CompanyName = companyName;
@@ -130,8 +133,7 @@ namespace Northwind.Data
                 PostalCode = x.PostalCode,
                 Country = x.Country,
                 Phone = x.Phone,
-                Fax = x.Fax,
-                LookupText = x.LookupText
+                Fax = x.Fax
             };
         }
 

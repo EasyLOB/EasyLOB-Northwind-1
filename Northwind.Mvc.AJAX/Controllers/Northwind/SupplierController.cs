@@ -75,7 +75,7 @@ namespace Northwind.Mvc
                 supplierCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_SupplierCollection", supplierCollectionModel);
+            return PartialView(supplierCollectionModel);
         }
 
         // GET & POST: Supplier/Lookup

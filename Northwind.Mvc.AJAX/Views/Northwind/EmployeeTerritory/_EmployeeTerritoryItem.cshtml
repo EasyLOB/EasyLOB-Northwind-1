@@ -1,51 +1,50 @@
-@model EmployeeTerritoryItemModel
+﻿@model EmployeeTerritoryItemModel
 
 @{
     string employeeText = Model.EmployeeTerritory == null ? "" : (Model.EmployeeTerritory.EmployeeLookupText ?? "");
     string territoryText = Model.EmployeeTerritory == null ? "" : (Model.EmployeeTerritory.TerritoryLookupText ?? "");
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_EmployeeTerritory">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
-@Html.HiddenFor(model => model.MasterEmployeeId)
-@Html.HiddenFor(model => model.MasterTerritoryId)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.MasterEmployeeId)
+    @Html.HiddenFor(model => model.MasterTerritoryId)
 
-@{Html.EJ().Tab("Tab_EmployeeTerritory")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_EmployeeTerritory")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_EmployeeTerritory_EmployeeTerritory").Text(EmployeeTerritoryResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_EmployeeTerritory_EmployeeId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@EmployeeResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.EmployeeTerritory.EmployeeId, new { id = "EmployeeTerritory_EmployeeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Employee", new
-                {
-                    Text = employeeText,
-                    ValueId = "EmployeeTerritory_EmployeeId"
-                })
-                @Html.ValidationMessageFor(model => model.EmployeeTerritory.EmployeeId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_EmployeeTerritory_TerritoryId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@TerritoryResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.EmployeeTerritory.TerritoryId, new { id = "EmployeeTerritory_TerritoryId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Territory", new
-                {
-                    Text = territoryText,
-                    ValueId = "EmployeeTerritory_TerritoryId"
-                })
-                @Html.ValidationMessageFor(model => model.EmployeeTerritory.TerritoryId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_EmployeeTerritory")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_EmployeeTerritory_EmployeeTerritory").Text(EmployeeTerritoryResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_EmployeeTerritory_EmployeeId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@EmployeeResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.EmployeeTerritory.EmployeeId, new { id = "EmployeeTerritory_EmployeeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Employee", new
+                    {
+                        Text = employeeText,
+                        ValueId = "EmployeeTerritory_EmployeeId"
+                    })
+                    @Html.ValidationMessageFor(model => model.EmployeeTerritory.EmployeeId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_EmployeeTerritory_TerritoryId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@TerritoryResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.EmployeeTerritory.TerritoryId, new { id = "EmployeeTerritory_TerritoryId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Territory", new
+                    {
+                        Text = territoryText,
+                        ValueId = "EmployeeTerritory_TerritoryId"
+                    })
+                    @Html.ValidationMessageFor(model => model.EmployeeTerritory.TerritoryId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -59,10 +58,22 @@
             var employeeTerritoryDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(EmployeeTerritory)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_EmployeeTerritory"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_EmployeeTerritory").css("display", "block");
+            }
+            else {
+                $("#Item_EmployeeTerritory").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -94,14 +105,7 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
         } catch (exception) {
-            alert(zExceptionMessage("_EmployeeTerritoryItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_EmployeeTerritoryItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_EmployeeTerritory(args) { // IE
-        try {
-        } catch (exception) {
-            alert(zExceptionMessage("_EmployeeTerritoryItem.cshtml", "itemActive_Tab_EmployeeTerritory(args)", exception));
-        }
-    }    
 </script>

@@ -24,17 +24,12 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public CustomerDemographicViewModel()
         {
-            CustomerTypeId = "A";
+            CustomerTypeId = LibraryDefaults.Default_String;
+            CustomerDesc = null;
         }
         
         public CustomerDemographicViewModel(
@@ -66,8 +61,7 @@ namespace Northwind.Data
             return x => new CustomerDemographicDTO
             {
                 CustomerTypeId = x.CustomerTypeId,
-                CustomerDesc = x.CustomerDesc,
-                LookupText = x.LookupText
+                CustomerDesc = x.CustomerDesc
             };
         }
 

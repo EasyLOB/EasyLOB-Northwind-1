@@ -1,0 +1,16 @@
+﻿@model CategoryCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_CategoryCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("Category Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

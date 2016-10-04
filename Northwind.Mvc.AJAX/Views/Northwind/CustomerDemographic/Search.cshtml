@@ -1,0 +1,16 @@
+﻿@model CustomerDemographicCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_CustomerDemographicCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("CustomerDemographic Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

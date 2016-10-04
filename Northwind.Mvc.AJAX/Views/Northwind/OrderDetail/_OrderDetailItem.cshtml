@@ -1,69 +1,68 @@
-@model OrderDetailItemModel
+﻿@model OrderDetailItemModel
 
 @{
     string orderText = Model.OrderDetail == null ? "" : (Model.OrderDetail.OrderLookupText ?? "");
     string productText = Model.OrderDetail == null ? "" : (Model.OrderDetail.ProductLookupText ?? "");
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_OrderDetail">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
-@Html.HiddenFor(model => model.MasterOrderId)
-@Html.HiddenFor(model => model.MasterProductId)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.MasterOrderId)
+    @Html.HiddenFor(model => model.MasterProductId)
 
-@{Html.EJ().Tab("Tab_OrderDetail")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_OrderDetail")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_OrderDetail_OrderDetail").Text(OrderDetailResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_OrderDetail_OrderId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@OrderResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.OrderDetail.OrderId, new { id = "OrderDetail_OrderId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Order", new
-                {
-                    Text = orderText,
-                    ValueId = "OrderDetail_OrderId"
-                })
-                @Html.ValidationMessageFor(model => model.OrderDetail.OrderId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_OrderDetail_ProductId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@ProductResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.OrderDetail.ProductId, new { id = "OrderDetail_ProductId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Product", new
-                {
-                    Text = productText,
-                    ValueId = "OrderDetail_ProductId"
-                })
-                @Html.ValidationMessageFor(model => model.OrderDetail.ProductId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_OrderDetail_UnitPrice" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.OrderDetail.UnitPrice, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.OrderDetail.UnitPrice, new { id = "OrderDetail_UnitPrice", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.OrderDetail.UnitPrice, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_OrderDetail_Quantity" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.OrderDetail.Quantity, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.OrderDetail.Quantity, new { id = "OrderDetail_Quantity", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.OrderDetail.Quantity, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_OrderDetail_Discount" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.OrderDetail.Discount, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.OrderDetail.Discount, new { id = "OrderDetail_Discount", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.OrderDetail.Discount, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_OrderDetail")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_OrderDetail_OrderDetail").Text(OrderDetailResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_OrderDetail_OrderId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@OrderResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.OrderDetail.OrderId, new { id = "OrderDetail_OrderId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Order", new
+                    {
+                        Text = orderText,
+                        ValueId = "OrderDetail_OrderId"
+                    })
+                    @Html.ValidationMessageFor(model => model.OrderDetail.OrderId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_OrderDetail_ProductId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@ProductResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.OrderDetail.ProductId, new { id = "OrderDetail_ProductId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Product", new
+                    {
+                        Text = productText,
+                        ValueId = "OrderDetail_ProductId"
+                    })
+                    @Html.ValidationMessageFor(model => model.OrderDetail.ProductId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_OrderDetail_UnitPrice" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.OrderDetail.UnitPrice, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.OrderDetail.UnitPrice, new { id = "OrderDetail_UnitPrice", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.OrderDetail.UnitPrice, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_OrderDetail_Quantity" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.OrderDetail.Quantity, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.OrderDetail.Quantity, new { id = "OrderDetail_Quantity", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.OrderDetail.Quantity, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_OrderDetail_Discount" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.OrderDetail.Discount, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.OrderDetail.Discount, new { id = "OrderDetail_Discount", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.OrderDetail.Discount, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -77,10 +76,22 @@
             var orderDetailDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(OrderDetail)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_OrderDetail"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_OrderDetail").css("display", "block");
+            }
+            else {
+                $("#Item_OrderDetail").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -112,14 +123,7 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
         } catch (exception) {
-            alert(zExceptionMessage("_OrderDetailItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_OrderDetailItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_OrderDetail(args) { // IE
-        try {
-        } catch (exception) {
-            alert(zExceptionMessage("_OrderDetailItem.cshtml", "itemActive_Tab_OrderDetail(args)", exception));
-        }
-    }    
 </script>

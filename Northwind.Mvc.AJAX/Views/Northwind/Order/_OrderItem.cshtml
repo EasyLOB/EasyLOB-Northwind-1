@@ -1,4 +1,4 @@
-@model OrderItemModel
+﻿@model OrderItemModel
 
 @{
     string customerText = Model.Order == null ? "" : (Model.Order.CustomerLookupText ?? "");
@@ -6,128 +6,127 @@
     string shipperText = Model.Order == null ? "" : (Model.Order.ShipperLookupText ?? "");
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_Order">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
-@Html.HiddenFor(model => model.MasterCustomerId)
-@Html.HiddenFor(model => model.MasterEmployeeId)
-@Html.HiddenFor(model => model.MasterShipVia)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.MasterCustomerId)
+    @Html.HiddenFor(model => model.MasterEmployeeId)
+    @Html.HiddenFor(model => model.MasterShipVia)
 
-@{Html.EJ().Tab("Tab_Order")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_Order")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_Order_Order").Text(OrderResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_Order_OrderId" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.OrderId, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Order.OrderId, new { id = "Order_OrderId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.OrderId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_CustomerId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@CustomerResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.CustomerId, new { id = "Order_CustomerId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Customer", new
-                {
-                    Text = customerText,
-                    ValueId = "Order_CustomerId"
-                })
-                @Html.ValidationMessageFor(model => model.Order.CustomerId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_EmployeeId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@EmployeeResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.EmployeeId, new { id = "Order_EmployeeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Employee", new
-                {
-                    Text = employeeText,
-                    ValueId = "Order_EmployeeId"
-                })
-                @Html.ValidationMessageFor(model => model.Order.EmployeeId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_OrderDate" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.OrderDate, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.OrderDate, new { id = "Order_OrderDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_RequiredDate" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.RequiredDate, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.RequiredDate, new { id = "Order_RequiredDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShippedDate" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.ShippedDate, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShippedDate, new { id = "Order_ShippedDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipVia" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@ShipperResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipVia, new { id = "Order_ShipVia", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Shipper", new
-                {
-                    Text = shipperText,
-                    ValueId = "Order_ShipVia"
-                })
-                @Html.ValidationMessageFor(model => model.Order.ShipVia, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_Freight" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.Freight, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.Freight, new { id = "Order_Freight", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.Freight, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipName" class="@AppDefaults.CssClassGroup col-md-5">
-                @Html.LabelFor(model => model.Order.ShipName, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipName, new { id = "Order_ShipName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipName, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipAddress" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.LabelFor(model => model.Order.ShipAddress, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipAddress, new { id = "Order_ShipAddress", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipAddress, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipCity" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.ShipCity, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipCity, new { id = "Order_ShipCity", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipCity, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipRegion" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.ShipRegion, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipRegion, new { id = "Order_ShipRegion", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipRegion, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipPostalCode" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.ShipPostalCode, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipPostalCode, new { id = "Order_ShipPostalCode", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipPostalCode, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Order_ShipCountry" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Order.ShipCountry, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Order.ShipCountry, new { id = "Order_ShipCountry", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Order.ShipCountry, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_Order")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_Order_Order").Text(OrderResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_Order_OrderId" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.OrderId, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Order.OrderId, new { id = "Order_OrderId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.OrderId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_CustomerId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@CustomerResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.CustomerId, new { id = "Order_CustomerId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Customer", new
+                    {
+                        Text = customerText,
+                        ValueId = "Order_CustomerId"
+                    })
+                    @Html.ValidationMessageFor(model => model.Order.CustomerId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_EmployeeId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@EmployeeResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.EmployeeId, new { id = "Order_EmployeeId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Employee", new
+                    {
+                        Text = employeeText,
+                        ValueId = "Order_EmployeeId"
+                    })
+                    @Html.ValidationMessageFor(model => model.Order.EmployeeId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_OrderDate" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.OrderDate, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.OrderDate, new { id = "Order_OrderDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.OrderDate, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_RequiredDate" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.RequiredDate, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.RequiredDate, new { id = "Order_RequiredDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.RequiredDate, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShippedDate" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.ShippedDate, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShippedDate, new { id = "Order_ShippedDate", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShippedDate, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipVia" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@ShipperResources.EntitySingular, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipVia, new { id = "Order_ShipVia", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Shipper", new
+                    {
+                        Text = shipperText,
+                        ValueId = "Order_ShipVia"
+                    })
+                    @Html.ValidationMessageFor(model => model.Order.ShipVia, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_Freight" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.Freight, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.Freight, new { id = "Order_Freight", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.Freight, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipName" class="@AppDefaults.CssClassGroup col-md-5">
+                    @Html.LabelFor(model => model.Order.ShipName, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipName, new { id = "Order_ShipName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipName, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipAddress" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.LabelFor(model => model.Order.ShipAddress, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipAddress, new { id = "Order_ShipAddress", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipAddress, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipCity" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.ShipCity, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipCity, new { id = "Order_ShipCity", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipCity, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipRegion" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.ShipRegion, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipRegion, new { id = "Order_ShipRegion", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipRegion, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipPostalCode" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.ShipPostalCode, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipPostalCode, new { id = "Order_ShipPostalCode", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipPostalCode, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Order_ShipCountry" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Order.ShipCountry, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Order.ShipCountry, new { id = "Order_ShipCountry", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Order.ShipCountry, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-        data.Add().ID("TabSheet_Order_OrderDetail").Text(OrderDetailResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
-            <div id="Ajax_Order_OrderDetail"></div>
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+            data.Add().ID("TabSheet_Order_OrderDetail").Text(OrderDetailResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+                <div id="Ajax_Order_OrderDetail"></div>
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -141,13 +140,25 @@
             var orderDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Order)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
             // OrderDetail
             ajaxUrl = "@(Html.Raw(Url.Action("Search", "OrderDetail", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterOrderId = Model.Order.OrderId })))";
             $("#Ajax_Order_OrderDetail").load(ajaxUrl);
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_Order"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_Order").css("display", "block");
+            }
+            else {
+                $("#Item_Order").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -183,26 +194,9 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
             // OrderDetail
-            var gridOrderDetail = $("#Grid_OrderDetail");
-            gridOrderDetail.css("display", display);
+            $("#Grid_OrderDetail").css("display", display);
         } catch (exception) {
-            alert(zExceptionMessage("_OrderItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_OrderItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_Order(args) { // IE
-        try {
-            switch(args.activeIndex) {
-            // OrderDetail
-                case 1:
-                    $("#Grid_OrderDetail").ejGrid({
-                        allowScrolling: true,
-                        scrollSettings: { width: "100%" }
-                    });
-                    break;
-            }            
-        } catch (exception) {
-            alert(zExceptionMessage("_OrderItem.cshtml", "itemActive_Tab_Order(args)", exception));
-        }
-    }    
 </script>

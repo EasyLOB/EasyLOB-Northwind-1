@@ -77,7 +77,7 @@ namespace Northwind.Mvc
                 territoryCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_TerritoryCollection", territoryCollectionModel);
+            return PartialView(territoryCollectionModel);
         }
 
         // GET & POST: Territory/Lookup

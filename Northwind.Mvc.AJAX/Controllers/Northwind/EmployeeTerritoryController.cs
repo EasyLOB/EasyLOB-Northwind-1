@@ -77,7 +77,7 @@ namespace Northwind.Mvc
                 employeeTerritoryCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_EmployeeTerritoryCollection", employeeTerritoryCollectionModel);
+            return PartialView(employeeTerritoryCollectionModel);
         }
 
         // GET & POST: EmployeeTerritory/Lookup

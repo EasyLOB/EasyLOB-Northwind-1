@@ -75,7 +75,7 @@ namespace Northwind.Mvc
                 categoryCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_CategoryCollection", categoryCollectionModel);
+            return PartialView(categoryCollectionModel);
         }
 
         // GET & POST: Category/Lookup

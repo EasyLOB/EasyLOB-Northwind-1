@@ -1,4 +1,4 @@
-@model OrderDetailCollectionModel
+﻿@model OrderDetailCollectionModel
 
 <div id="Ajax">
 </div>
@@ -8,7 +8,7 @@
         try {
             $("#Ajax").load("@(Url.Action("Search", "OrderDetail", null, Request.Url.Scheme))");
         } catch (exception) {
-            zExceptionMessage("OrderDetail Index.cshtml", "function()", exception.message)
+            zExceptionMessage("OrderDetail Index.cshtml", "function", exception.message)
         }
     });
 </script>

@@ -78,16 +78,6 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDataBase
-
-        public override string LookupText
-        {
-            get { return base.LookupText; }
-            set { }
-        }
-
-        #endregion Properties ZDataBase
-
         #region Associations (FK)
 
         public virtual Customer Customer { get; set; } // CustomerId
@@ -100,7 +90,7 @@ namespace Northwind.Data
 
         #region Collections (PK)
 
-        public virtual IList<OrderDetail> OrderDetails { get; set; }
+        public virtual IList<OrderDetail> OrderDetails { get; }
 
         #endregion Collections (PK)
 

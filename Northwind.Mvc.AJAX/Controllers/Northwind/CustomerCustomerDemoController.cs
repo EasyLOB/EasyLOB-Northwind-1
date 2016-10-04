@@ -77,7 +77,7 @@ namespace Northwind.Mvc
                 customerCustomerDemoCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_CustomerCustomerDemoCollection", customerCustomerDemoCollectionModel);
+            return PartialView(customerCustomerDemoCollectionModel);
         }
 
         // GET & POST: CustomerCustomerDemo/Lookup

@@ -1,4 +1,4 @@
-@model EmployeeTerritoryCollectionModel
+﻿@model EmployeeTerritoryCollectionModel
 
 <div id="Ajax">
 </div>
@@ -8,7 +8,7 @@
         try {
             $("#Ajax").load("@(Url.Action("Search", "EmployeeTerritory", null, Request.Url.Scheme))");
         } catch (exception) {
-            zExceptionMessage("EmployeeTerritory Index.cshtml", "function()", exception.message)
+            zExceptionMessage("EmployeeTerritory Index.cshtml", "function", exception.message)
         }
     });
 </script>

@@ -1,0 +1,16 @@
+﻿@model SupplierCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_SupplierCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("Supplier Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

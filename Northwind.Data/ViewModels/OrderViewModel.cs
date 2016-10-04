@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyOrderId", ResourceType = typeof(OrderResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int OrderId { get; set; }
         
@@ -83,17 +82,24 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public OrderViewModel()
         {
-            OrderId = 1;
+            OrderId = LibraryDefaults.Default_Int32;
+            CustomerId = null;
+            EmployeeId = null;
+            OrderDate = null;
+            RequiredDate = null;
+            ShippedDate = null;
+            ShipVia = null;
+            Freight = null;
+            ShipName = null;
+            ShipAddress = null;
+            ShipCity = null;
+            ShipRegion = null;
+            ShipPostalCode = null;
+            ShipCountry = null;
         }
         
         public OrderViewModel(
@@ -167,11 +173,7 @@ namespace Northwind.Data
                 ShipCity = x.ShipCity,
                 ShipRegion = x.ShipRegion,
                 ShipPostalCode = x.ShipPostalCode,
-                ShipCountry = x.ShipCountry,
-                CustomerLookupText = x.CustomerLookupText,
-                EmployeeLookupText = x.EmployeeLookupText,
-                ShipperLookupText = x.ShipperLookupText,
-                LookupText = x.LookupText
+                ShipCountry = x.ShipCountry
             };
         }
 

@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertySupplierId", ResourceType = typeof(SupplierResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int SupplierId { get; set; }
         
@@ -66,17 +65,22 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public SupplierViewModel()
         {
-            SupplierId = 1;
+            SupplierId = LibraryDefaults.Default_Int32;
+            CompanyName = LibraryDefaults.Default_String;
+            ContactName = null;
+            ContactTitle = null;
+            Address = null;
+            City = null;
+            Region = null;
+            PostalCode = null;
+            Country = null;
+            Phone = null;
+            Fax = null;
+            HomePage = null;
         }
         
         public SupplierViewModel(
@@ -138,8 +142,7 @@ namespace Northwind.Data
                 Country = x.Country,
                 Phone = x.Phone,
                 Fax = x.Fax,
-                HomePage = x.HomePage,
-                LookupText = x.LookupText
+                HomePage = x.HomePage
             };
         }
 

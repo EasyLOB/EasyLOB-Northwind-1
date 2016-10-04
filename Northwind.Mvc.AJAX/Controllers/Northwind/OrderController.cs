@@ -77,7 +77,7 @@ namespace Northwind.Mvc
                 orderCollectionModel.OperationResult.ParseException(exception);
             }
 
-            return PartialView("_OrderCollection", orderCollectionModel);
+            return PartialView(orderCollectionModel);
         }
 
         // GET & POST: Order/Lookup

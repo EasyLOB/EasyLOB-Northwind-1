@@ -1,53 +1,52 @@
-@model TerritoryItemModel
+﻿@model TerritoryItemModel
 
 @{
     string regionText = Model.Territory == null ? "" : (Model.Territory.RegionLookupText ?? "");
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_Territory">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
-@Html.HiddenFor(model => model.MasterRegionId)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.MasterRegionId)
 
-@{Html.EJ().Tab("Tab_Territory")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_Territory")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_Territory_Territory").Text(TerritoryResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_Territory_TerritoryId" class="@AppDefaults.CssClassGroup col-md-3">
-                @Html.LabelFor(model => model.Territory.TerritoryId, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Territory.TerritoryId, new { id = "Territory_TerritoryId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Territory.TerritoryId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Territory_TerritoryDescription" class="@AppDefaults.CssClassGroup col-md-5">
-                @Html.LabelFor(model => model.Territory.TerritoryDescription, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Territory.TerritoryDescription, new { id = "Territory_TerritoryDescription", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Territory.TerritoryDescription, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Territory_RegionId" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.Label(@RegionResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Territory.RegionId, new { id = "Territory_RegionId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
-                @Html.Action("Lookup", "Region", new
-                {
-                    Text = regionText,
-                    ValueId = "Territory_RegionId"
-                })
-                @Html.ValidationMessageFor(model => model.Territory.RegionId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_Territory")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_Territory_Territory").Text(TerritoryResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_Territory_TerritoryId" class="@AppDefaults.CssClassGroup col-md-3">
+                    @Html.LabelFor(model => model.Territory.TerritoryId, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Territory.TerritoryId, new { id = "Territory_TerritoryId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Territory.TerritoryId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Territory_TerritoryDescription" class="@AppDefaults.CssClassGroup col-md-5">
+                    @Html.LabelFor(model => model.Territory.TerritoryDescription, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Territory.TerritoryDescription, new { id = "Territory_TerritoryDescription", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Territory.TerritoryDescription, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Territory_RegionId" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.Label(@RegionResources.EntitySingular, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Territory.RegionId, new { id = "Territory_RegionId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })                    
+                    @Html.Action("Lookup", "Region", new
+                    {
+                        Text = regionText,
+                        ValueId = "Territory_RegionId"
+                    })
+                    @Html.ValidationMessageFor(model => model.Territory.RegionId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-        data.Add().ID("TabSheet_Territory_EmployeeTerritory").Text(EmployeeTerritoryResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
-            <div id="Ajax_Territory_EmployeeTerritory"></div>
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+            data.Add().ID("TabSheet_Territory_EmployeeTerritory").Text(EmployeeTerritoryResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+                <div id="Ajax_Territory_EmployeeTerritory"></div>
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -61,13 +60,25 @@
             var territoryDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Territory)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
             // EmployeeTerritory
             ajaxUrl = "@(Html.Raw(Url.Action("Search", "EmployeeTerritory", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterTerritoryId = Model.Territory.TerritoryId })))";
             $("#Ajax_Territory_EmployeeTerritory").load(ajaxUrl);
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_Territory"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_Territory").css("display", "block");
+            }
+            else {
+                $("#Item_Territory").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -93,26 +104,9 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
             // EmployeeTerritory
-            var gridEmployeeTerritory = $("#Grid_EmployeeTerritory");
-            gridEmployeeTerritory.css("display", display);
+            $("#Grid_EmployeeTerritory").css("display", display);
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_TerritoryItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_Territory(args) { // IE
-        try {
-            switch(args.activeIndex) {
-            // EmployeeTerritory
-                case 1:
-                    $("#Grid_EmployeeTerritory").ejGrid({
-                        allowScrolling: true,
-                        scrollSettings: { width: "100%" }
-                    });
-                    break;
-            }            
-        } catch (exception) {
-            alert(zExceptionMessage("_TerritoryItem.cshtml", "itemActive_Tab_Territory(args)", exception));
-        }
-    }    
 </script>

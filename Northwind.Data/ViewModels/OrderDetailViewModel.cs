@@ -16,7 +16,6 @@ namespace Northwind.Data
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
         //[Column(Order=1)]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int OrderId { get; set; }
         
@@ -24,25 +23,21 @@ namespace Northwind.Data
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
         //[Column(Order=2)]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int ProductId { get; set; }
         
         [Display(Name = "PropertyUnitPrice", ResourceType = typeof(OrderDetailResources))]
         [DisplayFormat(DataFormatString = "{0:f2}", ApplyFormatInEditMode = true)]
-        [Range(0.01, Double.MaxValue)]
         [Required]
         public virtual decimal UnitPrice { get; set; }
         
         [Display(Name = "PropertyQuantity", ResourceType = typeof(OrderDetailResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual short Quantity { get; set; }
         
         [Display(Name = "PropertyDiscount", ResourceType = typeof(OrderDetailResources))]
         [DisplayFormat(DataFormatString = "{0:f2}", ApplyFormatInEditMode = true)]
-        [Range(0.01, Double.MaxValue)]
         [Required]
         public virtual float Discount { get; set; }
 
@@ -56,18 +51,15 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public OrderDetailViewModel()
         {
-            OrderId = 1;
-            ProductId = 1;
+            OrderId = LibraryDefaults.Default_Int32;
+            ProductId = LibraryDefaults.Default_Int32;
+            UnitPrice = LibraryDefaults.Default_Decimal;
+            Quantity = LibraryDefaults.Default_Int16;
+            Discount = LibraryDefaults.Default_Single;
         }
         
         public OrderDetailViewModel(
@@ -112,10 +104,7 @@ namespace Northwind.Data
                 ProductId = x.ProductId,
                 UnitPrice = x.UnitPrice,
                 Quantity = x.Quantity,
-                Discount = x.Discount,
-                OrderLookupText = x.OrderLookupText,
-                ProductLookupText = x.ProductLookupText,
-                LookupText = x.LookupText
+                Discount = x.Discount
             };
         }
 

@@ -1,100 +1,99 @@
-@model SupplierItemModel
+﻿@model SupplierItemModel
 
 @{
 }
 
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+<div id="Item_Supplier">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-@Html.HiddenFor(model => model.ControllerAction)
-@Html.HiddenFor(model => model.IsMasterDetail)
+    @Html.HiddenFor(model => model.ControllerAction)
+    @Html.HiddenFor(model => model.IsMasterDetail)
 
-@{Html.EJ().Tab("Tab_Supplier")
-    .ClientSideEvents(clientEvent => clientEvent
-        .ItemActive("itemActive_Tab_Supplier")
-    )
-    .Items(data =>
-    {
-        data.Add().ID("TabSheet_Supplier_Supplier").Text(SupplierResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
-            
-            <div id="Group_Supplier_SupplierId" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Supplier.SupplierId, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Supplier.SupplierId, new { id = "Supplier_SupplierId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.SupplierId, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_CompanyName" class="@AppDefaults.CssClassGroup col-md-5">
-                @Html.LabelFor(model => model.Supplier.CompanyName, new { @class = AppDefaults.CssClassLabelRequired })
-                @Html.EditorFor(model => model.Supplier.CompanyName, new { id = "Supplier_CompanyName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.CompanyName, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_ContactName" class="@AppDefaults.CssClassGroup col-md-4">
-                @Html.LabelFor(model => model.Supplier.ContactName, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.ContactName, new { id = "Supplier_ContactName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.ContactName, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_ContactTitle" class="@AppDefaults.CssClassGroup col-md-4">
-                @Html.LabelFor(model => model.Supplier.ContactTitle, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.ContactTitle, new { id = "Supplier_ContactTitle", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.ContactTitle, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_Address" class="@AppDefaults.CssClassGroup col-md-6">
-                @Html.LabelFor(model => model.Supplier.Address, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.Address, new { id = "Supplier_Address", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.Address, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_City" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Supplier.City, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.City, new { id = "Supplier_City", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.City, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_Region" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Supplier.Region, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.Region, new { id = "Supplier_Region", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.Region, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_PostalCode" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Supplier.PostalCode, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.PostalCode, new { id = "Supplier_PostalCode", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.PostalCode, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_Country" class="@AppDefaults.CssClassGroup col-md-2">
-                @Html.LabelFor(model => model.Supplier.Country, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.Country, new { id = "Supplier_Country", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.Country, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_Phone" class="@AppDefaults.CssClassGroup col-md-3">
-                @Html.LabelFor(model => model.Supplier.Phone, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.Phone, new { id = "Supplier_Phone", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.Phone, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_Fax" class="@AppDefaults.CssClassGroup col-md-3">
-                @Html.LabelFor(model => model.Supplier.Fax, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.Fax, new { id = "Supplier_Fax", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.Fax, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
-            
-            <div id="Group_Supplier_HomePage" class="@AppDefaults.CssClassGroup col-md-3">
-                @Html.LabelFor(model => model.Supplier.HomePage, new { @class = AppDefaults.CssClassLabel })
-                @Html.EditorFor(model => model.Supplier.HomePage, new { id = "Supplier_HomePage", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
-                @Html.ValidationMessageFor(model => model.Supplier.HomePage, "", new { @class = AppDefaults.CssClassValidator })
-            </div>
+    @{Html.EJ().Tab("Tab_Supplier")
+        .Items(data =>
+        {
+            data.Add().ID("TabSheet_Supplier_Supplier").Text(SupplierResources.EntitySingular).ContentTemplate(@<div class="panel-body">        
+                
+                <div id="Group_Supplier_SupplierId" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Supplier.SupplierId, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Supplier.SupplierId, new { id = "Supplier_SupplierId", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.SupplierId, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_CompanyName" class="@AppDefaults.CssClassGroup col-md-5">
+                    @Html.LabelFor(model => model.Supplier.CompanyName, new { @class = AppDefaults.CssClassLabelRequired })
+                    @Html.EditorFor(model => model.Supplier.CompanyName, new { id = "Supplier_CompanyName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.CompanyName, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_ContactName" class="@AppDefaults.CssClassGroup col-md-4">
+                    @Html.LabelFor(model => model.Supplier.ContactName, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.ContactName, new { id = "Supplier_ContactName", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.ContactName, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_ContactTitle" class="@AppDefaults.CssClassGroup col-md-4">
+                    @Html.LabelFor(model => model.Supplier.ContactTitle, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.ContactTitle, new { id = "Supplier_ContactTitle", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.ContactTitle, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_Address" class="@AppDefaults.CssClassGroup col-md-6">
+                    @Html.LabelFor(model => model.Supplier.Address, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.Address, new { id = "Supplier_Address", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.Address, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_City" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Supplier.City, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.City, new { id = "Supplier_City", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.City, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_Region" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Supplier.Region, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.Region, new { id = "Supplier_Region", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.Region, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_PostalCode" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Supplier.PostalCode, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.PostalCode, new { id = "Supplier_PostalCode", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.PostalCode, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_Country" class="@AppDefaults.CssClassGroup col-md-2">
+                    @Html.LabelFor(model => model.Supplier.Country, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.Country, new { id = "Supplier_Country", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.Country, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_Phone" class="@AppDefaults.CssClassGroup col-md-3">
+                    @Html.LabelFor(model => model.Supplier.Phone, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.Phone, new { id = "Supplier_Phone", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.Phone, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_Fax" class="@AppDefaults.CssClassGroup col-md-3">
+                    @Html.LabelFor(model => model.Supplier.Fax, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.Fax, new { id = "Supplier_Fax", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.Fax, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
+                
+                <div id="Group_Supplier_HomePage" class="@AppDefaults.CssClassGroup col-md-3">
+                    @Html.LabelFor(model => model.Supplier.HomePage, new { @class = AppDefaults.CssClassLabel })
+                    @Html.EditorFor(model => model.Supplier.HomePage, new { id = "Supplier_HomePage", htmlAttributes = new { @class = AppDefaults.CssClassEditor } })
+                    @Html.ValidationMessageFor(model => model.Supplier.HomePage, "", new { @class = AppDefaults.CssClassValidator })
+                </div>
 
-        </div>);
-        data.Add().ID("TabSheet_Supplier_Product").Text(ProductResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
-            <div id="Ajax_Supplier_Product"></div>
-        </div>);
-    })
-    .Render();
-}
+            </div>);
+            data.Add().ID("TabSheet_Supplier_Product").Text(ProductResources.EntityPlural).ContentTemplate(@<div class="panel-body">    
+                <div id="Ajax_Supplier_Product"></div>
+            </div>);
+        })
+        .Render();
+    }
+</div>
 
 <script>
     // Validate hidden fields
@@ -108,13 +107,25 @@
             var supplierDictionary = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(DataHelper.GetDataDictionaryAttribute(typeof(Supplier)))); }();
             var controllerAction = model.ControllerAction == null ? "" : model.ControllerAction.toLowerCase();
             
+            $(document).prop("title", "@(ViewBag.Title)");
+
             var ajaxUrl = "";
             // Product
             ajaxUrl = "@(Html.Raw(Url.Action("Search", "Product", new { MasterUrl = Context.Request.Url.AbsoluteUri, MasterControllerAction = Model.ControllerAction, MasterSupplierId = Model.Supplier.SupplierId })))";
             $("#Ajax_Supplier_Product").load(ajaxUrl);
-            ej.widget.init($("#Ajax"));
-            $(document).prop("title", "@(ViewBag.Title)");            
-    
+
+            ej.widget.init($("#Item_Supplier"));
+
+            if ((model.ControllerAction = "create" && model.IsSecurityOperations.IsCreate) ||
+                (model.ControllerAction = "read" && model.IsSecurityOperations.IsRead) ||
+                (model.ControllerAction = "update" && model.IsSecurityOperations.IsUpdate) ||
+                (model.ControllerAction = "delete" && model.IsSecurityOperations.IsDelete)) {
+                $("#Item_Supplier").css("display", "block");
+            }
+            else {
+                $("#Item_Supplier").css("display", "none");
+            }
+
             var readonly = (controllerAction == "delete" || controllerAction == "read");
             $("input.form-control").not(":input[type=button], :input[type=image], :input[type=reset], :input[type=submit]").attr("readonly", readonly);
             if (readonly) {
@@ -135,26 +146,9 @@
             // Collections (PK)
             var display = controllerAction == "create" ? "none" : "block";
             // Product
-            var gridProduct = $("#Grid_Product");
-            gridProduct.css("display", display);
+            $("#Grid_Product").css("display", display);
         } catch (exception) {
-            alert(zExceptionMessage("_SupplierItem.cshtml", "function()", exception));
+            alert(zExceptionMessage("_SupplierItem.cshtml", "function", exception));
         }
     });
-
-    function itemActive_Tab_Supplier(args) { // IE
-        try {
-            switch(args.activeIndex) {
-            // Product
-                case 1:
-                    $("#Grid_Product").ejGrid({
-                        allowScrolling: true,
-                        scrollSettings: { width: "100%" }
-                    });
-                    break;
-            }            
-        } catch (exception) {
-            alert(zExceptionMessage("_SupplierItem.cshtml", "itemActive_Tab_Supplier(args)", exception));
-        }
-    }    
 </script>

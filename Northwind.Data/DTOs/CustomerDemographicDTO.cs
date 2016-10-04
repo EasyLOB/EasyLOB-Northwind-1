@@ -16,16 +16,12 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDTOBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZDTOBase
-
         #region Methods
         
         public CustomerDemographicDTO()
         {
+            CustomerTypeId = LibraryDefaults.Default_String;
+            CustomerDesc = null;
         }
         
         public CustomerDemographicDTO(

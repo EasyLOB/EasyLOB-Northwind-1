@@ -1,0 +1,16 @@
+﻿@model RegionCollectionModel
+
+<div class="form-inline">
+    @Html.Partial("_RegionCollection", Model)
+</div>
+
+<div id="OperationResult"></div>
+
+<script>
+    $(function () {
+        try {
+        } catch (exception) {
+            zExceptionMessage("Region Search.cshtml", "function", exception.message)
+        }
+    });
+</script>

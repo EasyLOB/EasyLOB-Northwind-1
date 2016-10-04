@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyProductId", ResourceType = typeof(ProductResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int ProductId { get; set; }
         
@@ -66,17 +65,20 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public ProductViewModel()
         {
-            ProductId = 1;
+            ProductId = LibraryDefaults.Default_Int32;
+            ProductName = LibraryDefaults.Default_String;
+            Discontinued = LibraryDefaults.Default_Boolean;
+            SupplierId = null;
+            CategoryId = null;
+            QuantityPerUnit = null;
+            UnitPrice = null;
+            UnitsInStock = null;
+            UnitsOnOrder = null;
+            ReorderLevel = null;
         }
         
         public ProductViewModel(
@@ -136,10 +138,7 @@ namespace Northwind.Data
                 UnitsInStock = x.UnitsInStock,
                 UnitsOnOrder = x.UnitsOnOrder,
                 ReorderLevel = x.ReorderLevel,
-                Discontinued = x.Discontinued,
-                CategoryLookupText = x.CategoryLookupText,
-                SupplierLookupText = x.SupplierLookupText,
-                LookupText = x.LookupText
+                Discontinued = x.Discontinued
             };
         }
 

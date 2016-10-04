@@ -36,18 +36,12 @@ namespace Northwind.Data
     
         #endregion Associations FK
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public CustomerCustomerDemoViewModel()
         {
-            CustomerId = "A";
-            CustomerTypeId = "A";
+            CustomerId = LibraryDefaults.Default_String;
+            CustomerTypeId = LibraryDefaults.Default_String;
         }
         
         public CustomerCustomerDemoViewModel(
@@ -83,10 +77,7 @@ namespace Northwind.Data
             return x => new CustomerCustomerDemoDTO
             {
                 CustomerId = x.CustomerId,
-                CustomerTypeId = x.CustomerTypeId,
-                CustomerDemographicLookupText = x.CustomerDemographicLookupText,
-                CustomerLookupText = x.CustomerLookupText,
-                LookupText = x.LookupText
+                CustomerTypeId = x.CustomerTypeId
             };
         }
 

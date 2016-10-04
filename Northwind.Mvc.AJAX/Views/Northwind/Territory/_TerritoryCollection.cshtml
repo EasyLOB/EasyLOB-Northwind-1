@@ -1,108 +1,117 @@
-@model TerritoryCollectionModel
+﻿@model TerritoryCollectionModel
 
 @{
     ViewBag.Title = TerritoryResources.EntityPlural;
+    
+    string query = "";
+    if (Model.MasterRegionId != null)
+    {
+        query = String.Format("ej.Query().where(\"RegionId\", ej.FilterOperators.equal, {0})", Model.MasterRegionId);
+    }
 }
 
-<div id="Territory_Title">
+<div id="Collection_Territory_Title">
     <h3>@ViewBag.Title</h3>
 </div>
 
-@(Html.EJ().Grid<Territory>("Grid_Territory")
-    .Datasource(datasource => datasource
-        .Adaptor(AdaptorType.UrlAdaptor)
-        .URL(Url.Content("~/Territory/DataSource"))
-    )
-    .AllowFiltering()
-    .AllowGrouping()
-    .AllowPaging()
-    .AllowResizing()
-    .AllowScrolling()
-    .AllowSearching()
-    .AllowSorting()
-    .ClientSideEvents(clientEvent => clientEvent
-        .ActionBegin("actionBegin_Grid_Territory")
-        .ActionFailure("actionFailure_Grid_Territory")
-        .Load("load_Grid_Territory")
-        .ToolbarClick("toolbarClick_Grid_Territory")
-    )
-    .Columns(column =>
-    {
-        column.Field("TerritoryId")
-            .EditType(EditingType.String)
-            .HeaderText(TerritoryResources.PropertyTerritoryId)
-            .IsPrimaryKey(true)
-            .Visible(false)
-            .Width(200)
-            .Add();
-        column.Field("TerritoryDescription")
-            .EditType(EditingType.String)
-            .HeaderText(TerritoryResources.PropertyTerritoryDescription)
-            .Visible(true)
-            .Width(240)
-            .Add();
-        column.Field("RegionId")
-            .EditType(EditingType.Numeric)
-            .Format(SyncfusionPatternResources.GridFormat_Integer)
-            .HeaderText(TerritoryResources.PropertyRegionId)
-            .TextAlign(TextAlign.Right)
-            .Visible(false)
-            .Width(100)
-            .Add();
-        column.Field("RegionLookupText")
-            .AllowEditing(false)
-            .HeaderText(RegionResources.EntitySingular)
-            .Visible(true)
-            .Width(100)
-            .Add();
-    })
-    .EditSettings(edit => edit
-        .AllowAdding()
-        .AllowDeleting()
-        .AllowEditing()
-    )
-    .EnablePersistence()
-    .FilterSettings(filter => filter
-        .EnableCaseSensitivity(false)
-        .FilterType(FilterType.Excel)
-        .MaxFilterChoices(System.Int32.MaxValue)
-    )
-    .Mappers(map => map
-        .ExportToExcelAction(Url.Content("~/Territory/ExportToExcel"))
-        .ExportToPdfAction(Url.Content("~/Territory/ExportToPdf"))
-        .ExportToWordAction(Url.Content("~/Territory/ExportToWord"))
-    )
-    .PageSettings(page => page
-        .PageSize(AppDefaults.SyncfusionRecordsByPage)
-    )
-    .SearchSettings(search =>
-    {
-        search.Fields(field =>
+<div id="Collection_Territory">
+    @(Html.EJ().Grid<Territory>("Grid_Territory")
+        .Datasource(datasource => datasource
+            .Adaptor(AdaptorType.UrlAdaptor)
+            .URL(Url.Content("~/Territory/DataSource"))
+        )
+        .Query(query)
+        .AllowFiltering()
+        .AllowGrouping()
+        .AllowPaging()
+        .AllowResizing()
+        .AllowScrolling()
+        .AllowSearching()
+        .AllowSorting()
+        .ClientSideEvents(clientEvent => clientEvent
+            .ActionBegin("actionBegin_Grid_Territory")
+            .ActionFailure("actionFailure_Grid_Territory")
+            .Load("load_Grid_Territory")
+            .ToolbarClick("toolbarClick_Grid_Territory")
+        )
+        .Columns(column =>
         {
-            //field.Add("TerritoryId");
-            field.Add("TerritoryDescription");
-            //field.Add("RegionId");
-            field.Add("RegionLookupText");
-        });
-    })
-    .ShowColumnChooser()
-    .ToolbarSettings(toolbar => toolbar
-        .CustomToolbarItems(new List<object>() {
-            new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Territory" }
+            column.Field("TerritoryId")
+                .EditType(EditingType.String)
+                .HeaderText(TerritoryResources.PropertyTerritoryId)
+                .IsPrimaryKey(true)
+                .Visible(false)
+                .Width(200)
+                .Add();
+            column.Field("TerritoryDescription")
+                .EditType(EditingType.String)
+                .HeaderText(TerritoryResources.PropertyTerritoryDescription)
+                .Visible(true)
+                .Width(240)
+                .Add();
+            column.Field("RegionId")
+                .EditType(EditingType.Numeric)
+                .Format(SyncfusionPatternResources.GridFormat_Integer)
+                .HeaderText(TerritoryResources.PropertyRegionId)
+                .TextAlign(TextAlign.Right)
+                .Visible(false)
+                .Width(100)
+                .Add();
+            column.Field("RegionLookupText")
+                .AllowEditing(false)
+                .HeaderText(RegionResources.EntitySingular)
+                .Visible(true)
+                .Width(100)
+                .Add();
         })
-        .ShowToolbar()
-        .ToolbarItems(items =>
+        .EditSettings(edit => edit
+            .AllowAdding()
+            .AllowDeleting()
+            .AllowEditing()
+        )
+        //.EnablePersistence()
+        .FilterSettings(filter => filter
+            .EnableCaseSensitivity(false)
+            .FilterType(FilterType.Excel)
+            .MaxFilterChoices(System.Int32.MaxValue)
+        )
+        .Mappers(map => map
+            .ExportToExcelAction(Url.Content("~/Territory/ExportToExcel"))
+            .ExportToPdfAction(Url.Content("~/Territory/ExportToPdf"))
+            .ExportToWordAction(Url.Content("~/Territory/ExportToWord"))
+        )
+        .PageSettings(page => page
+            .PageSize(AppDefaults.SyncfusionRecordsByPage)
+        )
+        .SearchSettings(search =>
         {
-            items.AddTool(ToolBarItems.Search);
-            items.AddTool(ToolBarItems.Add);
-            items.AddTool(ToolBarItems.Edit);
-            items.AddTool(ToolBarItems.Delete);
-            items.AddTool(ToolBarItems.ExcelExport);
-            items.AddTool(ToolBarItems.PdfExport);
-            items.AddTool(ToolBarItems.WordExport);
+            search.Fields(field =>
+            {
+                //field.Add("TerritoryId");
+                field.Add("TerritoryDescription");
+                //field.Add("RegionId");
+                field.Add("RegionLookupText");
+            });
         })
+        .ShowColumnChooser()
+        .ToolbarSettings(toolbar => toolbar
+            .CustomToolbarItems(new List<object>() {
+                new Syncfusion.JavaScript.Models.CustomToolbarItem() { TemplateID = "#Toolbar_Grid_Territory" }
+            })
+            .ShowToolbar()
+            .ToolbarItems(items =>
+            {
+                items.AddTool(ToolBarItems.Search);
+                items.AddTool(ToolBarItems.Add);
+                items.AddTool(ToolBarItems.Edit);
+                items.AddTool(ToolBarItems.Delete);
+                items.AddTool(ToolBarItems.ExcelExport);
+                items.AddTool(ToolBarItems.PdfExport);
+                items.AddTool(ToolBarItems.WordExport);
+            })
+        )
     )
-)
+</div>
 
 @Html.OperationResult(Model.OperationResult)
 
@@ -115,15 +124,19 @@
         try {
             var model = function () { return @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); }();
     
-            ej.widget.init($("#Ajax"));
-            var title = $("#Territory_Title");       
+            var title = $("#Collection_Territory_Title");
+            
+            ej.widget.init($("#Collection_Territory"));
+
+            if (model.IsSecurityOperations.IsSearch) {
+                $("#Collection_Territory").css("display", "block");
+            }
+            else {
+                $("#Collection_Territory").css("display", "none");
+            }
 
             var gridTerritory = $("#Grid_Territory");
             var ejGridTerritory = gridTerritory.data("ejGrid");
-    
-            if (ejGridTerritory.model.filterSettings.filteredColumns.length != 0) {
-                ejGridTerritory.clearFiltering();
-            }
                 
             if (!model.IsMasterDetail) {
                 title.css("display", "block");
@@ -132,7 +145,6 @@
                 ejGridTerritory.setModel({
                     allowGrouping: true,
                     toolbarSettings: {
-                        showToolbar: true,
                         toolbarItems: [
                             ej.Grid.ToolBarItems.Search,
                             ej.Grid.ToolBarItems.Add,
@@ -150,7 +162,6 @@
                 ejGridTerritory.setModel({
                     allowGrouping: false,
                     toolbarSettings: {
-                        showToolbar: true,
                         toolbarItems: [
                             ej.Grid.ToolBarItems.Add,
                             ej.Grid.ToolBarItems.Edit,
@@ -158,13 +169,9 @@
                         ]                    
                     }
                 });
-
-                if (model.MasterRegionId != null) {
-                    ejGridTerritory.filterColumn("RegionId", ej.FilterOperators.equal, model.MasterRegionId, ej.Predicate.and);
-                }
             }
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryCollection.cshtml", "function()", exception));
+            alert(zExceptionMessage("_TerritoryCollection.cshtml", "function", exception));
         }                
     });
     
@@ -185,7 +192,8 @@
                     case "add":
                         // Create
                         if (model.IsSecurityOperations.IsCreate) {
-                            $("#Ajax").load("@(Url.Action("Create", "Territory", null, Request.Url.Scheme))" + (url == "" ? "" : "?") + url);
+                            $("#Ajax").load("@(Url.Action("Create", "Territory", null, Request.Url.Scheme))" +
+                                (url == "" ? "" : "?") + url);
                         }
                         break;
                     case "read":
@@ -193,7 +201,8 @@
                         if (model.IsSecurityOperations.IsRead) {
                             var data = args.data;
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Read", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Read", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;                        
@@ -202,7 +211,8 @@
                         if (model.IsSecurityOperations.IsUpdate) {
                             var data = this.model.currentViewData[args.rowIndex];
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Update", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Update", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;
@@ -211,7 +221,8 @@
                         if (model.IsSecurityOperations.IsDelete) {
                             var data = args.data;
                             if (!ej.isNullOrUndefined(data)) {
-                                $("#Ajax").load("@(Url.Action("Delete", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) + (url == "" ? "" : "&") + url);
+                                $("#Ajax").load("@(Url.Action("Delete", "Territory", null, Request.Url.Scheme))?TerritoryId=" + String(data.TerritoryId) +
+                                    (url == "" ? "" : "&") + url);
                             }
                         }
                         break;
@@ -222,7 +233,7 @@
                 args.cancel = true;
             }
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryCollection.cshtml", "actionBegin_Grid_Territory(args)", exception));
+            alert(zExceptionMessage("_TerritoryCollection.cshtml", "actionBegin_Grid_Territory", exception));
         }            
     }
     
@@ -230,7 +241,7 @@
         try {
             alert(zErrorMessage(args.error.responseText));
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryCollection.cshtml", "actionFailure_Grid_Territory(args)", exception));
+            alert(zExceptionMessage("_TerritoryCollection.cshtml", "actionFailure_Grid_Territory", exception));
         }
     }    
 
@@ -239,7 +250,7 @@
             var culture = "@System.Globalization.CultureInfo.CurrentCulture.Name";
             this.model.locale = culture;
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryCollection.cshtml", "load_Grid_Territory(args)", exception));
+            alert(zExceptionMessage("_TerritoryCollection.cshtml", "load_Grid_Territory", exception));
         }
     }
 
@@ -257,7 +268,7 @@
                 }
             }
         } catch (exception) {
-            alert(zExceptionMessage("_TerritoryCollection.cshtml", "toolbarClick_Grid_Territory(sender)", exception));
+            alert(zExceptionMessage("_TerritoryCollection.cshtml", "toolbarClick_Grid_Territory", exception));
         }
     }
 </script>

@@ -15,7 +15,6 @@ namespace Northwind.Data
         [Display(Name = "PropertyShipperId", ResourceType = typeof(ShipperResources))]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         //[Key]
-        [Range(1, Int32.MaxValue)]
         [Required]
         public virtual int ShipperId { get; set; }
         
@@ -30,17 +29,13 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZViewBase
-
-        public override string LookupText { get; set; }
-
-        #endregion Properties ZViewBase
-
         #region Methods
         
         public ShipperViewModel()
         {
-            ShipperId = 1;
+            ShipperId = LibraryDefaults.Default_Int32;
+            CompanyName = LibraryDefaults.Default_String;
+            Phone = null;
         }
         
         public ShipperViewModel(
@@ -75,8 +70,7 @@ namespace Northwind.Data
             {
                 ShipperId = x.ShipperId,
                 CompanyName = x.CompanyName,
-                Phone = x.Phone,
-                LookupText = x.LookupText
+                Phone = x.Phone
             };
         }
 

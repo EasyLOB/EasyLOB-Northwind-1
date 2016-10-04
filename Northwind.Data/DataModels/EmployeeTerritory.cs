@@ -44,16 +44,6 @@ namespace Northwind.Data
 
         #endregion Properties
 
-        #region Properties ZDataBase
-
-        public override string LookupText
-        {
-            get { return base.LookupText; }
-            set { }
-        }
-
-        #endregion Properties ZDataBase
-
         #region Associations (FK)
 
         public virtual Employee Employee { get; set; } // EmployeeId

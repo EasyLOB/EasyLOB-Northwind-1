@@ -1,12 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Northwind.Data;
 using Northwind.Data.Resources;
 using EasyLOB.Data;
 using EasyLOB.Library;
 
-namespace Northwind.Data
+namespace Northwind.Mvc
 {
     public partial class CategoryViewModel : ZViewBase<CategoryViewModel, CategoryDTO, Category>
     {
@@ -76,7 +77,7 @@ namespace Northwind.Data
                 CategoryId = x.CategoryId,
                 CategoryName = x.CategoryName,
                 Description = x.Description,
-                Picture = x.Picture
+                Picture = x.Picture,
             };
         }
 

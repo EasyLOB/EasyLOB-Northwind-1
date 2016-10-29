@@ -130,19 +130,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TerritoryResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\CustomerCustomerDemoViewModel.cs" />
-    <Compile Include="ViewModels\CustomerDemographicViewModel.cs" />
-    <Compile Include="ViewModels\CustomerViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeTerritoryViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="ViewModels\OrderDetailViewModel.cs" />
-    <Compile Include="ViewModels\OrderViewModel.cs" />
-    <Compile Include="ViewModels\ProductViewModel.cs" />
-    <Compile Include="ViewModels\RegionViewModel.cs" />
-    <Compile Include="ViewModels\ShipperViewModel.cs" />
-    <Compile Include="ViewModels\SupplierViewModel.cs" />
-    <Compile Include="ViewModels\TerritoryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

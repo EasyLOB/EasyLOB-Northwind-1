@@ -273,6 +273,8 @@
     <Compile Include="Models\AuditTrail\CollectionModels\AuditTrailLogCollectionModel.cs" />
     <Compile Include="Models\AuditTrail\ItemModels\AuditTrailConfigurationItemModel.cs" />
     <Compile Include="Models\AuditTrail\ItemModels\AuditTrailLogItemModel.cs" />
+    <Compile Include="Models\AuditTrail\ViewModels\AuditTrailConfigurationViewModel.cs" />
+    <Compile Include="Models\AuditTrail\ViewModels\AuditTrailLogViewModel.cs" />
     <Compile Include="Models\Identity\AccountViewModels.cs" />
     <Compile Include="Models\Identity\ManageViewModels.cs" />
     <Compile Include="Models\Northwind\CollectionModels\CategoryCollectionModel.cs" />
@@ -301,6 +303,19 @@
     <Compile Include="Models\Northwind\ItemModels\ShipperItemModel.cs" />
     <Compile Include="Models\Northwind\ItemModels\SupplierItemModel.cs" />
     <Compile Include="Models\Northwind\ItemModels\TerritoryItemModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\CategoryViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\CustomerCustomerDemoViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\CustomerDemographicViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\CustomerViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\EmployeeTerritoryViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\OrderDetailViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\OrderViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\ProductViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\RegionViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\ShipperViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\SupplierViewModel.cs" />
+    <Compile Include="Models\Northwind\ViewModels\TerritoryViewModel.cs" />
     <Compile Include="Models\Reports\ReportModelRDL.cs" />
     <Compile Include="Models\Reports\ReportModelRDLC.cs" />
     <Compile Include="Models\Security\CollectionModels\ActivityCollectionModel.cs" />
@@ -317,6 +332,13 @@
     <Compile Include="Models\Security\ItemModels\UserItemModel.cs" />
     <Compile Include="Models\Security\ItemModels\UserLoginItemModel.cs" />
     <Compile Include="Models\Security\ItemModels\UserRoleItemModel.cs" />
+    <Compile Include="Models\Security\ViewModels\ActivityRoleViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\ActivityViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\UserClaimViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\UserLoginViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\UserRoleViewModel.cs" />
+    <Compile Include="Models\Security\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AccountResources.Designer.cs">
       <AutoGen>True</AutoGen>

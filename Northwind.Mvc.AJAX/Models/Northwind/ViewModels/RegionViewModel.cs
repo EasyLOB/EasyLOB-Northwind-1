@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Northwind.Data;
 using Northwind.Data.Resources;
 using EasyLOB.Data;
 using EasyLOB.Library;
 
-namespace Northwind.Data
+namespace Northwind.Mvc
 {
     public partial class RegionViewModel : ZViewBase<RegionViewModel, RegionDTO, Region>
     {

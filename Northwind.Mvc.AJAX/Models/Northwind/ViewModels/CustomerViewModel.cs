@@ -2,74 +2,71 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Northwind.Data;
 using Northwind.Data.Resources;
 using EasyLOB.Data;
 using EasyLOB.Library;
 
-namespace Northwind.Data
+namespace Northwind.Mvc
 {
-    public partial class SupplierViewModel : ZViewBase<SupplierViewModel, SupplierDTO, Supplier>
+    public partial class CustomerViewModel : ZViewBase<CustomerViewModel, CustomerDTO, Customer>
     {
         #region Properties
         
-        [Display(Name = "PropertySupplierId", ResourceType = typeof(SupplierResources))]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [Display(Name = "PropertyCustomerId", ResourceType = typeof(CustomerResources))]
         //[Key]
         [Required]
-        public virtual int SupplierId { get; set; }
+        [StringLength(5)]
+        public virtual string CustomerId { get; set; }
         
-        [Display(Name = "PropertyCompanyName", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyCompanyName", ResourceType = typeof(CustomerResources))]
         [Required]
         [StringLength(40)]
         public virtual string CompanyName { get; set; }
         
-        [Display(Name = "PropertyContactName", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyContactName", ResourceType = typeof(CustomerResources))]
         [StringLength(30)]
         public virtual string ContactName { get; set; }
         
-        [Display(Name = "PropertyContactTitle", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyContactTitle", ResourceType = typeof(CustomerResources))]
         [StringLength(30)]
         public virtual string ContactTitle { get; set; }
         
-        [Display(Name = "PropertyAddress", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyAddress", ResourceType = typeof(CustomerResources))]
         [StringLength(60)]
         public virtual string Address { get; set; }
         
-        [Display(Name = "PropertyCity", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyCity", ResourceType = typeof(CustomerResources))]
         [StringLength(15)]
         public virtual string City { get; set; }
         
-        [Display(Name = "PropertyRegion", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyRegion", ResourceType = typeof(CustomerResources))]
         [StringLength(15)]
         public virtual string Region { get; set; }
         
-        [Display(Name = "PropertyPostalCode", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyPostalCode", ResourceType = typeof(CustomerResources))]
         [StringLength(10)]
         public virtual string PostalCode { get; set; }
         
-        [Display(Name = "PropertyCountry", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyCountry", ResourceType = typeof(CustomerResources))]
         [StringLength(15)]
         public virtual string Country { get; set; }
         
-        [Display(Name = "PropertyPhone", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyPhone", ResourceType = typeof(CustomerResources))]
         [StringLength(24)]
         public virtual string Phone { get; set; }
         
-        [Display(Name = "PropertyFax", ResourceType = typeof(SupplierResources))]
+        [Display(Name = "PropertyFax", ResourceType = typeof(CustomerResources))]
         [StringLength(24)]
         public virtual string Fax { get; set; }
-        
-        [Display(Name = "PropertyHomePage", ResourceType = typeof(SupplierResources))]
-        [StringLength(1024)]
-        public virtual string HomePage { get; set; }
 
         #endregion Properties
 
         #region Methods
         
-        public SupplierViewModel()
+        public CustomerViewModel()
         {
-            SupplierId = LibraryDefaults.Default_Int32;
+            CustomerId = LibraryDefaults.Default_String;
             CompanyName = LibraryDefaults.Default_String;
             ContactName = null;
             ContactTitle = null;
@@ -80,11 +77,10 @@ namespace Northwind.Data
             Country = null;
             Phone = null;
             Fax = null;
-            HomePage = null;
         }
         
-        public SupplierViewModel(
-            int supplierId,
+        public CustomerViewModel(
+            string customerId,
             string companyName,
             string contactName = null,
             string contactTitle = null,
@@ -94,12 +90,10 @@ namespace Northwind.Data
             string postalCode = null,
             string country = null,
             string phone = null,
-            string fax = null,
-            string homePage = null
+            string fax = null
         )
-            : this()
         {
-            SupplierId = supplierId;
+            CustomerId = customerId;
             CompanyName = companyName;
             ContactName = contactName;
             ContactTitle = contactTitle;
@@ -110,15 +104,14 @@ namespace Northwind.Data
             Country = country;
             Phone = phone;
             Fax = fax;
-            HomePage = homePage;
         }
 
-        public SupplierViewModel(IZDataBase data)
+        public CustomerViewModel(IZDataBase data)
         {
             FromData(data);
         }
 
-        public SupplierViewModel(IZDTOBase<SupplierDTO, Supplier> dto)
+        public CustomerViewModel(IZDTOBase<CustomerDTO, Customer> dto)
         {
             FromDTO(dto);
         }
@@ -127,11 +120,11 @@ namespace Northwind.Data
 
         #region Methods ZViewBase
 
-        public override Func<SupplierViewModel, SupplierDTO> GetDTOSelector()
+        public override Func<CustomerViewModel, CustomerDTO> GetDTOSelector()
         {
-            return x => new SupplierDTO
+            return x => new CustomerDTO
             {
-                SupplierId = x.SupplierId,
+                CustomerId = x.CustomerId,
                 CompanyName = x.CompanyName,
                 ContactName = x.ContactName,
                 ContactTitle = x.ContactTitle,
@@ -141,16 +134,15 @@ namespace Northwind.Data
                 PostalCode = x.PostalCode,
                 Country = x.Country,
                 Phone = x.Phone,
-                Fax = x.Fax,
-                HomePage = x.HomePage
+                Fax = x.Fax
             };
         }
 
-        public override Func<SupplierDTO, SupplierViewModel> GetViewSelector()
+        public override Func<CustomerDTO, CustomerViewModel> GetViewSelector()
         {
-            return x => new SupplierViewModel
+            return x => new CustomerViewModel
             {
-                SupplierId = x.SupplierId,
+                CustomerId = x.CustomerId,
                 CompanyName = x.CompanyName,
                 ContactName = x.ContactName,
                 ContactTitle = x.ContactTitle,
@@ -161,7 +153,6 @@ namespace Northwind.Data
                 Country = x.Country,
                 Phone = x.Phone,
                 Fax = x.Fax,
-                HomePage = x.HomePage,
                 LookupText = x.LookupText
             };
         }
@@ -170,19 +161,19 @@ namespace Northwind.Data
         {
             if (data != null)
             {
-                SupplierDTO dto = new SupplierDTO(data);
-                SupplierViewModel view = (new List<SupplierDTO> { (SupplierDTO)dto })
+                CustomerDTO dto = new CustomerDTO(data);
+                CustomerViewModel view = (new List<CustomerDTO> { (CustomerDTO)dto })
                     .Select(GetViewSelector())
                     .SingleOrDefault();
                 LibraryHelper.Clone(view, this);            
             }
         }
 
-        public override void FromDTO(IZDTOBase<SupplierDTO, Supplier> dto)
+        public override void FromDTO(IZDTOBase<CustomerDTO, Customer> dto)
         {
             if (dto != null)
             {
-                SupplierViewModel view = (new List<SupplierDTO> { (SupplierDTO)dto })
+                CustomerViewModel view = (new List<CustomerDTO> { (CustomerDTO)dto })
                     .Select(GetViewSelector())
                     .SingleOrDefault();
                 LibraryHelper.Clone(view, this);
@@ -194,9 +185,9 @@ namespace Northwind.Data
             return ToDTO().ToData();
         }
         
-        public override IZDTOBase<SupplierDTO, Supplier> ToDTO()
+        public override IZDTOBase<CustomerDTO, Customer> ToDTO()
         {
-            return (new List<SupplierViewModel> { this })
+            return (new List<CustomerViewModel> { this })
                 .Select(GetDTOSelector())
                 .SingleOrDefault();   
         }
